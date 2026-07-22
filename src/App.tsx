@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { IMG, IMG_REAL, REVIEWS } from "./data";
+import { IMG, IMG_REAL, LOGO, REVIEWS } from "./data";
 
 /* ---------- Small helpers ---------- */
 
@@ -121,15 +121,13 @@ export default function App() {
             : "bg-transparent"
         }`}
       >
-        <div className="max-w-7xl mx-auto flex items-center justify-between px-5 md:px-10 h-16 md:h-20">
-          <a href="#top" className="flex items-center gap-2.5 group">
-            <span className="w-9 h-9 rounded-full bg-espresso text-cream grid place-items-center">
-              <Icon.Bean className="w-5 h-5" />
-            </span>
-            <div className={`leading-none ${scrolled ? "text-espresso" : "text-cream"}`}>
-              <div className="font-display font-semibold tracking-tight text-lg">Bean Crazy</div>
-              <div className="text-[10px] uppercase tracking-[0.22em] opacity-70">Roatán · West End</div>
-            </div>
+        <div className="max-w-7xl mx-auto flex items-center justify-between px-6 md:px-10 h-16 md:h-20">
+          <a href="#top" className="flex items-center group">
+            <img
+              src={LOGO}
+              alt="Bean Crazy"
+              className={`h-10 md:h-12 w-auto transition-all duration-500 ${scrolled ? "invert-0" : "invert"}`}
+            />
           </a>
 
           <nav className="hidden lg:flex items-center gap-8">
@@ -160,9 +158,9 @@ export default function App() {
             aria-expanded={navOpen}
             aria-controls="mobile-nav-drawer"
             onClick={() => setNavOpen(true)}
-            className={`lg:hidden ${scrolled ? "text-espresso" : "text-cream"}`}
+            className={`lg:hidden -mr-2 p-2.5 ${scrolled ? "text-espresso" : "text-cream"}`}
           >
-            <Icon.Menu className="w-7 h-7" />
+            <Icon.Menu className="w-6 h-6" />
           </button>
         </div>
       </header>
@@ -190,14 +188,9 @@ export default function App() {
           }`}
         >
           <div className="flex items-center justify-between mb-10">
-            <div className="flex items-center gap-2">
-              <span className="w-9 h-9 rounded-full bg-espresso text-cream grid place-items-center">
-                <Icon.Bean className="w-5 h-5" />
-              </span>
-              <span className="font-display text-xl">Bean Crazy</span>
-            </div>
-            <button aria-label="Close" onClick={() => setNavOpen(false)}>
-              <Icon.X className="w-7 h-7" />
+            <img src={LOGO} alt="Bean Crazy" className="h-9 w-auto" />
+            <button aria-label="Close" onClick={() => setNavOpen(false)} className="-mr-2.5 p-2.5">
+              <Icon.X className="w-6 h-6" />
             </button>
           </div>
           <nav className="flex flex-col gap-1">
@@ -221,7 +214,7 @@ export default function App() {
           </a>
           <div className="mt-10 text-sm opacity-70 leading-relaxed">
             West End Road · Half Moon Bay <br />
-            Mon–Sat · 7am–5pm
+            Mon–Sat 7am–5pm · Sun 7am–2pm
           </div>
         </aside>
       </div>
@@ -268,7 +261,7 @@ export default function App() {
 
 function Hero() {
   return (
-    <section id="top" className="relative h-[100svh] min-h-[640px] w-full overflow-hidden">
+    <section id="top" className="relative h-[100svh] min-h-[640px] w-full overflow-hidden flex flex-col">
       <img
         src={IMG.heroCoffeeShore}
         srcSet={`${IMG.heroCoffeeShoreMobile} 1000w, ${IMG.heroCoffeeShore} 2400w`}
@@ -280,7 +273,11 @@ function Hero() {
       />
       <div className="absolute inset-0 hero-wash" />
 
-      <div className="relative z-10 h-full max-w-7xl mx-auto px-6 md:px-10 flex flex-col justify-end pb-16 md:pb-24">
+      {/* Main content: grows to fill all space above the stats strip, and
+          bottom-anchors its own text within that space. Since the strip below
+          is a normal-flow sibling (not absolutely positioned over this), the
+          two can never overlap regardless of how tall the strip gets. */}
+      <div className="relative z-10 flex-1 min-h-0 w-full max-w-7xl mx-auto px-6 md:px-10 flex flex-col justify-end pb-6 md:pb-12">
         <div className="max-w-3xl fade-up">
           <div className="inline-flex items-center gap-2 text-cream/90 text-xs md:text-sm tracking-[0.28em] uppercase mb-6">
             <Icon.Sun className="w-4 h-4" /> West End · Half Moon Bay · Roatán
@@ -310,9 +307,10 @@ function Hero() {
         </div>
       </div>
 
-      {/* stats strip */}
-      <div className="absolute bottom-0 left-0 right-0 z-10 border-t border-cream/15 backdrop-blur-sm bg-espresso/25">
-        <div className="max-w-7xl mx-auto px-6 md:px-10 py-4 flex flex-wrap items-center justify-between gap-4 text-cream/90 text-xs md:text-sm">
+      {/* stats strip — normal flow, shrink-0 so it always takes exactly the
+          space it needs and content above never gets covered by it */}
+      <div className="relative z-10 shrink-0 border-t border-cream/15 backdrop-blur-sm bg-espresso/25">
+        <div className="max-w-7xl mx-auto px-6 md:px-10 py-3 md:py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5 sm:gap-4 text-cream/90 text-xs md:text-sm">
           <div className="flex items-center gap-2">
             <div className="flex text-coral">
               {[...Array(5)].map((_, i) => <Icon.Star key={i} className="w-3.5 h-3.5" />)}
@@ -398,7 +396,7 @@ function Story() {
             </p>
           </div>
 
-          <div className="mt-10 grid grid-cols-3 gap-6 max-w-lg">
+          <div className="mt-10 grid grid-cols-3 gap-3 sm:gap-6 max-w-lg">
             {[
               ["4.6★", "Rating on Tripadvisor"],
               ["100%", "Honduran-grown beans"],
@@ -603,7 +601,7 @@ function WhyLove() {
           {items.map((it, i) => (
             <div
               key={it.n}
-              className="reveal p-8 rounded-3xl bg-linen border border-espresso/5 hover:border-sage/40 transition"
+              className="reveal p-6 md:p-8 rounded-3xl bg-linen border border-espresso/5 hover:border-sage/40 transition"
               style={{ transitionDelay: `${i * 60}ms` }}
             >
               <div className="font-display text-sm text-teal opacity-70">{it.n}</div>
@@ -777,15 +775,8 @@ function Footer() {
     <footer className="bg-bark text-cream/85">
       <div className="max-w-7xl mx-auto px-6 md:px-10 py-16 grid md:grid-cols-4 gap-10">
         <div className="md:col-span-2">
-          <div className="flex items-center gap-3">
-            <span className="w-10 h-10 rounded-full bg-cream text-espresso grid place-items-center">
-              <Icon.Bean className="w-5 h-5"/>
-            </span>
-            <div>
-              <div className="font-display text-2xl text-cream">Bean Crazy</div>
-              <div className="text-[10px] uppercase tracking-[0.22em] opacity-70">Roatán · West End</div>
-            </div>
-          </div>
+          <img src={LOGO} alt="Bean Crazy" className="h-11 w-auto invert" />
+          <div className="mt-2 text-[10px] uppercase tracking-[0.22em] text-cream/70">Roatán · West End</div>
           <p className="mt-6 max-w-md leading-relaxed">
             Fresh roasted Honduran coffee, island breakfasts and slow Caribbean mornings on
             Half Moon Bay, West End, Roatán. More than a coffee shop — a Roatán tradition.
@@ -850,22 +841,25 @@ function Footer() {
 
 function FloatingButtons() {
   return (
-    <div className="fixed bottom-5 right-5 z-40 flex flex-col gap-3">
+    <div
+      className="fixed right-4 sm:right-5 z-40 flex flex-col gap-2.5 sm:gap-3"
+      style={{ bottom: "max(1.1rem, calc(env(safe-area-inset-bottom) + 0.75rem))" }}
+    >
       <a
         href="https://wa.me/50496228396"
         target="_blank" rel="noopener"
         aria-label="WhatsApp Bean Crazy"
-        className="w-14 h-14 rounded-full bg-[#25D366] text-white grid place-items-center shadow-xl hover:scale-105 transition animate-floaty"
+        className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#25D366] text-white grid place-items-center shadow-xl hover:scale-105 transition animate-floaty"
       >
-        <Icon.Whats className="w-7 h-7"/>
+        <Icon.Whats className="w-6 h-6 sm:w-7 sm:h-7"/>
       </a>
       <a
         href="https://maps.google.com/?q=Bean+Crazy+Cafe+West+End+Roatan"
         target="_blank" rel="noopener"
         aria-label="Directions to Bean Crazy"
-        className="w-14 h-14 rounded-full bg-espresso text-cream grid place-items-center shadow-xl hover:scale-105 transition"
+        className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-espresso text-cream grid place-items-center shadow-xl hover:scale-105 transition"
       >
-        <Icon.Pin className="w-6 h-6"/>
+        <Icon.Pin className="w-5 h-5 sm:w-6 sm:h-6"/>
       </a>
     </div>
   );

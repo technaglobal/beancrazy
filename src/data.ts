@@ -17,6 +17,13 @@ export const IMG_REAL = {
     "https://static.wixstatic.com/media/0b65ff_7b48f814454243609b6d88ac7536b520~mv2_d_3968_2976_s_4_2.jpg/v1/fill/w_1600,h_1200,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/0b65ff_7b48f814454243609b6d88ac7536b520~mv2_d_3968_2976_s_4_2.jpg",
 };
 
+// Official Bean Crazy logo mark. Original was black artwork on a white
+// background; background was removed (converted to alpha transparency) so it
+// composites cleanly on any color. It's pure black by default — use the
+// Tailwind `invert` utility (with a transition) to flip it to white on dark
+// backgrounds rather than keeping two separate image files.
+export const LOGO = "/images/logo-bean-crazy.png";
+
 export const IMG = {
   // User-supplied hero photo (upscaled 200% by the user to 1250x700, then further
   // upscaled here via Lanczos resampling + sharpening) to 2400px (desktop) and
