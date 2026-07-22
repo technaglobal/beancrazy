@@ -108,7 +108,6 @@ export default function App() {
     ["Favorites", "favorites"],
     ["Vibes", "vibes"],
     ["Reviews", "reviews"],
-    ["Gallery", "gallery"],
     ["Visit", "visit"],
   ];
 
@@ -251,9 +250,6 @@ export default function App() {
       {/* ============== REVIEWS ============== */}
       <ReviewsSection />
 
-      {/* ============== GALLERY ============== */}
-      <Gallery />
-
       {/* ============== VISIT ============== */}
       <Visit />
 
@@ -371,9 +367,9 @@ function Story() {
       <div className="max-w-7xl mx-auto px-6 md:px-10 grid md:grid-cols-12 gap-10 md:gap-16 items-center">
         <div className="md:col-span-5 reveal">
           <div className="grid grid-cols-2 gap-4">
-            <img src={IMG_REAL.interior} alt="Inside Bean Crazy Café, West End, Roatán" className="rounded-2xl aspect-[4/5] object-cover w-full" loading="lazy"/>
+            <img src={IMG.beans2} alt="Roasted Honduran coffee beans" className="rounded-2xl aspect-[4/5] object-cover w-full" loading="lazy"/>
             <img src={IMG_REAL.breakfast} alt="Real breakfast plate served at Bean Crazy" className="rounded-2xl aspect-[4/5] object-cover w-full mt-10" loading="lazy"/>
-            <img src={IMG.people2} alt="Friends enjoying coffee" className="rounded-2xl aspect-[4/5] object-cover w-full -mt-6" loading="lazy"/>
+            <img src={IMG.moka} alt="Coffee brewing, stovetop moka pot" className="rounded-2xl aspect-[4/5] object-cover w-full -mt-6" loading="lazy"/>
             <img src={IMG_REAL.lunch} alt="Real lunch plate served at Bean Crazy" className="rounded-2xl aspect-[4/5] object-cover w-full mt-4" loading="lazy"/>
           </div>
         </div>
@@ -688,61 +684,6 @@ function ReviewsSection() {
               </div>
             </article>
           ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ================================================================== */
-/* GALLERY                                                             */
-/* ================================================================== */
-
-function Gallery() {
-  const shots = [
-    IMG.pouring, IMG_REAL.breakfast, IMG.beans1, IMG.interior3,
-    IMG.latteArt, IMG_REAL.dinner, IMG.beach2, IMG.people1,
-    IMG.espresso, IMG_REAL.lunch, IMG.interior5, IMG.juice1,
-  ];
-  return (
-    <section id="gallery" className="py-24 md:py-32 bg-cream">
-      <div className="max-w-7xl mx-auto px-6 md:px-10">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12 reveal">
-          <div>
-            <div className="text-xs uppercase tracking-[0.28em] text-teal-deep mb-5">The Gallery</div>
-            <h2 className="font-display text-4xl md:text-6xl leading-[1.02] tracking-tight text-espresso max-w-xl">
-              A morning at Bean Crazy, <em className="italic font-light text-sage-deep">in pictures.</em>
-            </h2>
-          </div>
-          <a
-            href="https://www.instagram.com/beancrazyroatan/"
-            target="_blank"
-            rel="noopener"
-            className="text-sm underline underline-offset-4 hover:text-teal-deep"
-          >
-            Follow on Instagram →
-          </a>
-        </div>
-
-        <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[180px] md:auto-rows-[220px] gap-3 md:gap-4">
-          {shots.map((src, i) => {
-            // create a mosaic pattern
-            const spans = [
-              "row-span-2", "", "", "row-span-2",
-              "", "row-span-2", "", "",
-              "row-span-2", "", "row-span-2", "",
-            ];
-            return (
-              <div key={i} className={`reveal overflow-hidden rounded-2xl ${spans[i] || ""}`} style={{ transitionDelay: `${i * 40}ms` }}>
-                <img
-                  src={src}
-                  alt=""
-                  loading="lazy"
-                  className="w-full h-full object-cover hover:scale-105 transition duration-700"
-                />
-              </div>
-            );
-          })}
         </div>
       </div>
     </section>
