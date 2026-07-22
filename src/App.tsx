@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { IMG, IMG_REAL, MENU, REVIEWS } from "./data";
+import { IMG, IMG_REAL, REVIEWS } from "./data";
 
 /* ---------- Small helpers ---------- */
 
@@ -61,6 +61,10 @@ const Icon = {
       <path d="M32 4c-14 8-22 20-22 32 0 14 10 24 22 24s22-10 22-24C54 24 46 12 32 4zM32 8c11 7 18 17 18 28M32 8v52M32 12c-9 6-14 15-14 24M22 30h10M20 40h12M24 48h8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
     </svg>
   ),
+  // NOTE: placeholder logo mark — swap for Bean Crazy's real logo file as soon as
+  // it's available (their actual logo lives on Instagram/Facebook, which block
+  // automated fetching; upload the real file and drop it in as an <img> instead
+  // of this SVG throughout the header, mobile drawer, marquee, and footer).
   Bean: (p: React.SVGProps<SVGSVGElement>) => (
     <svg viewBox="0 0 64 64" fill="none" {...p}>
       <ellipse cx="32" cy="32" rx="16" ry="26" transform="rotate(35 32 32)" fill="currentColor" opacity="0.9"/>
@@ -107,8 +111,7 @@ export default function App() {
   const links = [
     ["Story", "story"],
     ["Coffee", "coffee"],
-    ["Breakfast", "breakfast"],
-    ["Menu", "menu"],
+    ["Favorites", "favorites"],
     ["Vibes", "vibes"],
     ["Reviews", "reviews"],
     ["Gallery", "gallery"],
@@ -152,10 +155,10 @@ export default function App() {
 
           <div className="hidden lg:flex items-center gap-3">
             <a
-              href="#menu"
+              href="#favorites"
               className="inline-flex items-center gap-2 text-sm px-4 py-2 rounded-full bg-espresso text-cream hover:bg-bark transition"
             >
-              View Menu <Icon.Arrow className="w-4 h-4" />
+              See What's Inside <Icon.Arrow className="w-4 h-4" />
             </a>
           </div>
 
@@ -217,15 +220,15 @@ export default function App() {
             ))}
           </nav>
           <a
-            href="#menu"
+            href="#favorites"
             onClick={() => setNavOpen(false)}
             className="mt-8 inline-flex items-center gap-2 px-5 py-3 bg-espresso text-cream rounded-full"
           >
-            View Menu <Icon.Arrow className="w-4 h-4" />
+            See What's Inside <Icon.Arrow className="w-4 h-4" />
           </a>
           <div className="mt-10 text-sm opacity-70 leading-relaxed">
             West End Road · Half Moon Bay <br />
-            Open daily · 7am – 5pm
+            Mon–Sat · 7am–5pm
           </div>
         </aside>
       </div>
@@ -242,23 +245,11 @@ export default function App() {
       {/* ============== COFFEE ============== */}
       <CoffeeSection />
 
-      {/* ============== BREAKFAST ============== */}
-      <Breakfast />
-
-      {/* ============== BAKERY ============== */}
-      <Bakery />
-
-      {/* ============== LUNCH ============== */}
-      <Lunch />
-
-      {/* ============== JUICES ============== */}
-      <Juices />
+      {/* ============== FAVORITES ============== */}
+      <Favorites />
 
       {/* ============== VIBES ============== */}
       <Vibes />
-
-      {/* ============== MENU ============== */}
-      <MenuSection />
 
       {/* ============== WHY TRAVELERS LOVE ============== */}
       <WhyLove />
@@ -314,10 +305,10 @@ function Hero() {
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <a
-              href="#menu"
+              href="#favorites"
               className="inline-flex items-center gap-2 bg-cream text-espresso px-6 py-3.5 rounded-full text-sm font-medium hover:bg-white transition"
             >
-              View Menu <Icon.Arrow className="w-4 h-4" />
+              See What's Inside <Icon.Arrow className="w-4 h-4" />
             </a>
             <a
               href="#visit"
@@ -339,7 +330,7 @@ function Hero() {
             <span>4.6 · 341+ Tripadvisor reviews</span>
           </div>
           <div className="hidden md:block opacity-70">Ranked #26 of 215 restaurants in West End</div>
-          <div className="opacity-80">Open daily · 7am – 5pm</div>
+          <div className="opacity-80">Mon–Sat 7am–5pm · Sun 7am–2pm</div>
         </div>
       </div>
     </section>
@@ -467,7 +458,7 @@ function CoffeeSection() {
             <ul className="mt-8 space-y-4">
               {[
                 ["Single-origin", "Small-lot Honduran arabica, roasted weekly in-house."],
-                ["Whole bean & ground", "Take a bag home — most guests take two."],
+                ["Whole bean & ground", "Take a bag home — roasted on site, from $12/lb."],
                 ["Coffee gifts", "Beautiful bags, mugs, and gift sets in our shop."],
               ].map(([t, d]) => (
                 <li key={t} className="flex gap-4">
@@ -481,8 +472,8 @@ function CoffeeSection() {
             </ul>
 
             <div className="mt-10 flex flex-wrap gap-3">
-              <a href="#menu" className="inline-flex items-center gap-2 bg-cream text-espresso px-6 py-3 rounded-full text-sm hover:bg-white transition">
-                Explore Coffee Menu <Icon.Arrow className="w-4 h-4" />
+              <a href="#favorites" className="inline-flex items-center gap-2 bg-cream text-espresso px-6 py-3 rounded-full text-sm hover:bg-white transition">
+                See What's Inside <Icon.Arrow className="w-4 h-4" />
               </a>
               <a href="#visit" className="inline-flex items-center gap-2 border border-cream/40 px-6 py-3 rounded-full text-sm hover:bg-cream/10 transition">
                 Take Beans Home
@@ -511,30 +502,30 @@ function CoffeeSection() {
 }
 
 /* ================================================================== */
-/* BREAKFAST                                                           */
+/* FAVORITES — real, review-confirmed dishes only, no invented menu   */
 /* ================================================================== */
 
-function Breakfast() {
+function Favorites() {
   const items = [
-    { img: IMG_REAL.breakfast, name: "The Honduran", note: "Local favourite" },
-    { img: IMG.breakfast1, name: "Half Moon Sandwich", note: "Chicken · bacon · avocado" },
-    { img: IMG.breakfast3, name: "Roatán Avo Toast", note: "Poached · chili · lime" },
-    { img: IMG.breakfast4, name: "Island Waffle", note: "Tropical fruit & cream" },
+    { img: IMG_REAL.breakfast, name: "Honduran Breakfast Plates", note: "Huevos rancheros, baleadas & more" },
+    { img: IMG.breakfast4, name: "Waffles & Classics", note: "All-day breakfast favourites" },
+    { img: IMG_REAL.lunch, name: "Burgers & Sandwiches", note: "Guest-favourite lunch plates" },
+    { img: IMG.bakery3, name: "Fresh-Baked Daily", note: "Banana bread, cinnamon rolls, cookies" },
   ];
   return (
-    <section id="breakfast" className="py-24 md:py-36 bg-linen">
+    <section id="favorites" className="py-24 md:py-36 bg-linen">
       <div className="max-w-7xl mx-auto px-6 md:px-10">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-14 reveal">
           <div className="max-w-xl">
-            <div className="text-xs uppercase tracking-[0.28em] text-teal-deep mb-5">Breakfast Favourites</div>
+            <div className="text-xs uppercase tracking-[0.28em] text-teal-deep mb-5">What People Come Back For</div>
             <h2 className="font-display text-4xl md:text-6xl leading-[1.02] tracking-tight text-espresso">
               The reason people <br/>
               <em className="italic font-light text-teal-deep">set an alarm on vacation.</em>
             </h2>
           </div>
           <p className="max-w-md text-espresso/70 leading-relaxed">
-            Served all day, because you're on island time. From proper Honduran plates to fluffy
-            waffles and everything in between — nothing frozen, everything cooked to order.
+            Reviewers keep mentioning the same things: hearty Honduran breakfast plates, good
+            burgers and sandwiches, and fresh-baked treats that don't last past noon.
           </p>
         </div>
 
@@ -556,108 +547,10 @@ function Breakfast() {
             </article>
           ))}
         </div>
-      </div>
-    </section>
-  );
-}
 
-/* ================================================================== */
-/* BAKERY                                                              */
-/* ================================================================== */
-
-function Bakery() {
-  return (
-    <section className="py-24 md:py-32 bg-cream">
-      <div className="max-w-7xl mx-auto px-6 md:px-10 grid md:grid-cols-12 gap-10 items-center">
-        <div className="md:col-span-6 relative reveal">
-          <img src={IMG.bakery3} alt="Bakery display" className="rounded-3xl w-full aspect-[5/6] object-cover" loading="lazy"/>
-          <img src={IMG.bakery1} alt="Fresh pastries" className="hidden md:block absolute -right-8 -bottom-10 w-56 h-72 object-cover rounded-2xl shadow-2xl border-8 border-cream" loading="lazy"/>
-        </div>
-        <div className="md:col-span-6 md:pl-10 reveal">
-          <div className="text-xs uppercase tracking-[0.28em] text-teal-deep mb-5">Fresh Bakery</div>
-          <h2 className="font-display text-4xl md:text-6xl leading-[1.02] tracking-tight">
-            Baked before <em className="italic font-light text-sage-deep">the divers</em> even wake up.
-          </h2>
-          <p className="mt-6 text-espresso/75 text-lg leading-relaxed max-w-lg">
-            Buttery croissants, warm cinnamon rolls, banana bread and the cookies our regulars come
-            back for on the ferry ride home. Everything baked in small batches. Everything usually
-            gone by noon.
-          </p>
-          <div className="mt-8 grid grid-cols-3 gap-3">
-            {[IMG.bakery2, IMG.bakery4, IMG.bakery1].map((src, i) => (
-              <img key={i} src={src} alt="" className="aspect-square object-cover rounded-xl" loading="lazy"/>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ================================================================== */
-/* LUNCH                                                               */
-/* ================================================================== */
-
-function Lunch() {
-  return (
-    <section className="py-24 md:py-32 bg-espresso text-cream relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 md:px-10 grid md:grid-cols-2 gap-14 items-center">
-        <div className="reveal">
-          <div className="text-xs uppercase tracking-[0.28em] text-clay mb-5">Lunch</div>
-          <h2 className="font-display text-4xl md:text-6xl leading-[1.02] tracking-tight">
-            Post-dive fuel. <br/>
-            <em className="italic font-light text-clay">Beach-day burgers.</em>
-          </h2>
-          <p className="mt-6 text-cream/75 text-lg leading-relaxed max-w-lg">
-            When breakfast quietly turns into lunch — fresh fish sandwiches, generous burgers, quinoa bowls
-            and the fries our regulars swear by. Come hungry, leave in a hammock.
-          </p>
-          <a href="#menu" className="mt-8 inline-flex items-center gap-2 bg-cream text-espresso px-6 py-3 rounded-full text-sm hover:bg-white transition">
-            See Lunch Menu <Icon.Arrow className="w-4 h-4"/>
-          </a>
-        </div>
-        <div className="grid grid-cols-2 gap-4 reveal">
-          <img src={IMG.lunch1} alt="Burger" className="rounded-2xl aspect-[4/5] object-cover w-full" loading="lazy"/>
-          <img src={IMG.lunch2} alt="Lunch plate" className="rounded-2xl aspect-[4/5] object-cover w-full mt-10" loading="lazy"/>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ================================================================== */
-/* JUICES                                                              */
-/* ================================================================== */
-
-function Juices() {
-  const j = [
-    { img: IMG.juice4, name: "Fresh Pressed", sub: "Orange · Pineapple · Watermelon" },
-    { img: IMG.juice1, name: "Funky Monkey", sub: "The one everyone Instagrams" },
-    { img: IMG.juice2, name: "Mango Sunrise", sub: "Tropical, cold, sunny" },
-    { img: IMG.juice5, name: "Watermelon Lime", sub: "Most refreshing on island" },
-  ];
-  return (
-    <section className="py-24 md:py-32 bg-linen">
-      <div className="max-w-7xl mx-auto px-6 md:px-10">
-        <div className="max-w-2xl reveal">
-          <div className="text-xs uppercase tracking-[0.28em] text-teal-deep mb-5">Fresh Juice & Smoothies</div>
-          <h2 className="font-display text-4xl md:text-6xl leading-[1.02] tracking-tight text-espresso">
-            Pressed to order. <em className="italic font-light text-teal-deep">Sipped by the sea.</em>
-          </h2>
-        </div>
-        <div className="mt-14 grid grid-cols-2 md:grid-cols-4 gap-5 md:gap-6">
-          {j.map((it, i) => (
-            <div key={i} className="reveal group" style={{ transitionDelay: `${i * 80}ms` }}>
-              <div className="overflow-hidden rounded-3xl aspect-[3/4] bg-sand">
-                <img src={it.img} alt={it.name} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition duration-700"/>
-              </div>
-              <div className="mt-4">
-                <div className="font-display text-xl text-espresso">{it.name}</div>
-                <div className="text-xs uppercase tracking-widest text-espresso/60 mt-1">{it.sub}</div>
-              </div>
-            </div>
-          ))}
-        </div>
+        <p className="mt-10 text-center text-espresso/50 text-sm reveal">
+          Full menu and current prices available in-house — ask your server.
+        </p>
       </div>
     </section>
   );
@@ -688,89 +581,6 @@ function Vibes() {
           {[IMG.beach2, IMG.beach3, IMG.beach4].map((src, i) => (
             <img key={i} src={src} alt="" className="rounded-2xl aspect-[4/5] object-cover w-full" loading="lazy" />
           ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ================================================================== */
-/* MENU                                                                */
-/* ================================================================== */
-
-function MenuSection() {
-  const [active, setActive] = useState(MENU[0].id);
-  const cat = useMemo(() => MENU.find((c) => c.id === active)!, [active]);
-
-  return (
-    <section id="menu" className="py-24 md:py-36 bg-cream">
-      <div className="max-w-7xl mx-auto px-6 md:px-10">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 reveal">
-          <div>
-            <div className="text-xs uppercase tracking-[0.28em] text-teal-deep mb-5">The Menu</div>
-            <h2 className="font-display text-4xl md:text-6xl leading-[1.02] tracking-tight text-espresso">
-              Everything, on <em className="italic font-light text-sage-deep">island time.</em>
-            </h2>
-          </div>
-          <p className="text-espresso/70 max-w-sm">
-            Prices in Honduran Lempira (L). USD accepted. Breakfast served all day.
-          </p>
-        </div>
-
-        {/* Tabs */}
-        <div className="reveal">
-          <div className="flex gap-2 overflow-x-auto no-scrollbar -mx-6 px-6 md:mx-0 md:px-0 pb-2">
-            {MENU.map((c) => {
-              const on = c.id === active;
-              return (
-                <button
-                  key={c.id}
-                  onClick={() => setActive(c.id)}
-                  className={`shrink-0 px-5 py-2.5 rounded-full text-sm border transition ${
-                    on
-                      ? "bg-espresso text-cream border-espresso"
-                      : "bg-transparent text-espresso/80 border-espresso/15 hover:border-espresso/40"
-                  }`}
-                >
-                  {c.label}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        <div className="mt-10 grid md:grid-cols-12 gap-10 md:gap-14">
-          <div className="md:col-span-5 reveal">
-            <div className="relative overflow-hidden rounded-3xl aspect-[4/5] bg-sand">
-              <img key={cat.image} src={cat.image} alt={cat.label} className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-espresso/60 via-transparent to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-6 text-cream">
-                <div className="font-display text-3xl">{cat.label}</div>
-                <div className="text-cream/85 text-sm mt-1">{cat.blurb}</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="md:col-span-7 reveal">
-            <ul className="divide-y divide-espresso/10">
-              {cat.items.map((it) => (
-                <li key={it.name} className="py-5 flex items-start gap-6">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-3 flex-wrap">
-                      <div className="font-display text-xl md:text-2xl text-espresso">{it.name}</div>
-                      {it.tag && (
-                        <span className="text-[10px] uppercase tracking-widest bg-sage/20 text-sage-deep px-2 py-0.5 rounded-full">
-                          {it.tag}
-                        </span>
-                      )}
-                    </div>
-                    <p className="text-espresso/70 text-sm mt-1 leading-relaxed">{it.desc}</p>
-                  </div>
-                  <div className="font-display text-lg text-espresso whitespace-nowrap pt-1">{it.price}</div>
-                </li>
-              ))}
-            </ul>
-          </div>
         </div>
       </div>
     </section>
@@ -857,7 +667,7 @@ function ReviewsSection() {
             <div className="flex text-coral">
               {[...Array(5)].map((_, i) => <Icon.Star key={i} className="w-4 h-4"/>)}
             </div>
-            <span>Also loved on Google</span>
+            <span>Also loved on Google · 4.4 · 479 reviews</span>
           </div>
         </div>
 
@@ -976,7 +786,8 @@ function Visit() {
             <div>
               <dt className="text-[10px] uppercase tracking-widest text-cream/50 mb-2">Hours</dt>
               <dd className="leading-relaxed">
-                Open daily · 7am – 5pm<br/>
+                Mon–Sat · 7am – 5pm<br/>
+                Sun · 7am – 2pm<br/>
                 <span className="text-cream/60">Breakfast served all day</span>
               </dd>
             </div>
@@ -1078,7 +889,7 @@ function Footer() {
             <li className="flex justify-between"><span>Thu</span><span>7 – 5</span></li>
             <li className="flex justify-between"><span>Fri</span><span>7 – 5</span></li>
             <li className="flex justify-between"><span>Sat</span><span>7 – 5</span></li>
-            <li className="flex justify-between"><span>Sun</span><span>7 – 5</span></li>
+            <li className="flex justify-between"><span>Sun</span><span>7 – 2</span></li>
           </ul>
         </div>
       </div>
@@ -1088,7 +899,7 @@ function Footer() {
           <div>© {new Date().getFullYear()} Bean Crazy Café & Breakfast · West End, Roatán</div>
           <div className="flex gap-5">
             <a href="#story" className="hover:text-cream">Story</a>
-            <a href="#menu" className="hover:text-cream">Menu</a>
+            <a href="#favorites" className="hover:text-cream">Favorites</a>
             <a href="#reviews" className="hover:text-cream">Reviews</a>
             <a href="#visit" className="hover:text-cream">Visit</a>
           </div>
