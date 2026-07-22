@@ -74,89 +74,6 @@ const Icon = {
 };
 
 /* ================================================================== */
-/* BOUNCING BEAN — a single bean mark that bounces around the whole   */
-/* screen DVD-screensaver style, changing color on every wall hit.    */
-/* ================================================================== */
-
-const BOUNCE_COLORS = ["#c9b394", "#d97757", "#4f6249", "#1e4a4a", "#2a1f18"];
-
-function BouncingBean() {
-  const elRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    const el = elRef.current;
-    if (!el) return;
-
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const size = 44;
-
-    if (prefersReducedMotion) {
-      // Respect reduced-motion preference: place it once, don't animate.
-      el.style.transform = `translate(${window.innerWidth - size - 24}px, ${window.innerHeight - size - 24}px)`;
-      el.style.color = BOUNCE_COLORS[0];
-      return;
-    }
-
-    let x = Math.random() * (window.innerWidth - size);
-    let y = Math.random() * (window.innerHeight - size);
-    let vx = 140; // px/sec
-    let vy = 115;
-    let colorIndex = 0;
-    let last = performance.now();
-    let raf = 0;
-
-    const bump = () => {
-      colorIndex = (colorIndex + 1) % BOUNCE_COLORS.length;
-      el.style.color = BOUNCE_COLORS[colorIndex];
-    };
-
-    const tick = (now: number) => {
-      const dt = Math.min((now - last) / 1000, 0.05); // clamp to avoid big jumps on tab refocus
-      last = now;
-
-      const maxX = window.innerWidth - size;
-      const maxY = window.innerHeight - size;
-
-      x += vx * dt;
-      y += vy * dt;
-
-      if (x <= 0) { x = 0; vx = Math.abs(vx); bump(); }
-      else if (x >= maxX) { x = maxX; vx = -Math.abs(vx); bump(); }
-
-      if (y <= 0) { y = 0; vy = Math.abs(vy); bump(); }
-      else if (y >= maxY) { y = maxY; vy = -Math.abs(vy); bump(); }
-
-      el.style.transform = `translate(${x}px, ${y}px)`;
-      raf = requestAnimationFrame(tick);
-    };
-
-    raf = requestAnimationFrame(tick);
-
-    const onResize = () => {
-      x = Math.min(x, window.innerWidth - size);
-      y = Math.min(y, window.innerHeight - size);
-    };
-    window.addEventListener("resize", onResize);
-
-    return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener("resize", onResize);
-    };
-  }, []);
-
-  return (
-    <div
-      ref={elRef}
-      aria-hidden="true"
-      className="fixed top-0 left-0 z-40 pointer-events-none will-change-transform"
-      style={{ color: BOUNCE_COLORS[0] }}
-    >
-      <Icon.Bean className="w-11 h-11 drop-shadow-md" />
-    </div>
-  );
-}
-
-/* ================================================================== */
 
 export default function App() {
   useReveal();
@@ -345,9 +262,6 @@ export default function App() {
 
       {/* Floating action buttons */}
       <FloatingButtons />
-
-      {/* Fun bit: a single bean bounces around the screen, DVD-logo style */}
-      <BouncingBean />
     </div>
   );
 }
@@ -360,10 +274,13 @@ function Hero() {
   return (
     <section id="top" className="relative h-[100svh] min-h-[640px] w-full overflow-hidden">
       <img
-        src={IMG.heroPour}
-        alt="Barista pouring fresh espresso at Bean Crazy Roatán"
+        src={IMG.heroCoffeeShore}
+        srcSet={`${IMG.heroCoffeeShoreMobile} 1000w, ${IMG.heroCoffeeShore} 2400w`}
+        sizes="100vw"
+        alt="A warm cup of coffee on a wooden table at sunrise by the beach"
         className="absolute inset-0 w-full h-full object-cover"
         loading="eager"
+        fetchPriority="high"
       />
       <div className="absolute inset-0 hero-wash" />
 

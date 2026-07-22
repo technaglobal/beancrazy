@@ -22,8 +22,11 @@ export const IMG_REAL = {
 };
 
 export const IMG = {
-  heroPour:
-    "https://images.pexels.com/photos/4353571/pexels-photo-4353571.jpeg?auto=compress&cs=tinysrgb&w=2000",
+  // User-supplied hero photo (upscaled 200% by the user to 1250x700, then further
+  // upscaled here via Lanczos resampling + sharpening) to 2400px (desktop) and
+  // 1000px (mobile) — see public/images/.
+  heroCoffeeShore: "/images/hero-coffee-shore.jpg",
+  heroCoffeeShoreMobile: "/images/hero-coffee-shore-mobile.jpg",
   espresso:
     "https://images.pexels.com/photos/302893/pexels-photo-302893.jpeg?auto=compress&cs=tinysrgb&w=1400",
   latteArt:

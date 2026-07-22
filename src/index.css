@@ -66,7 +66,9 @@ body {
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-/* hero gradient wash */
+/* hero gradient wash — deliberately strong so the headline stays legible
+   over any photo, not dependent on the image itself being dark */
 .hero-wash {
-  background: linear-gradient(180deg, rgba(42,31,24,0.15) 0%, rgba(42,31,24,0.35) 45%, rgba(42,31,24,0.75) 100%);
+  background: linear-gradient(180deg, rgba(20,14,10,0.38) 0%, rgba(20,14,10,0.55) 40%, rgba(20,14,10,0.92) 100%),
+              linear-gradient(90deg, rgba(20,14,10,0.55) 0%, rgba(20,14,10,0.15) 55%, rgba(20,14,10,0.05) 100%);
 }
