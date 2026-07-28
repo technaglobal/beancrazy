@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.beancrazyroatan.com/sitemap.xml
+Sitemap: https://beancrazy.wethinkdeeper.com/sitemap.xml

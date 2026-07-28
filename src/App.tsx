@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { IMG, IMG_REAL, LOGO, REVIEWS } from "./data";
+import { useEffect, useRef, useState } from "react";
+import { IMG, IMG_REAL, LOGO } from "./data";
+import { useLanguage, LanguageToggleHeader, LanguageToggle } from "./i18n";
 
 /* ---------- Small helpers ---------- */
 
@@ -77,6 +78,7 @@ const Icon = {
 
 export default function App() {
   useReveal();
+  const { t } = useLanguage();
   const [navOpen, setNavOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -102,14 +104,7 @@ export default function App() {
     };
   }, [navOpen]);
 
-  const links = [
-    ["Story", "story"],
-    ["Coffee", "coffee"],
-    ["Favorites", "favorites"],
-    ["Vibes", "vibes"],
-    ["Reviews", "reviews"],
-    ["Visit", "visit"],
-  ];
+  const links = t.nav.links;
 
   return (
     <div className="min-h-screen bg-cream text-espresso overflow-x-hidden">
@@ -144,24 +139,28 @@ export default function App() {
             ))}
           </nav>
 
-          <div className="hidden lg:flex items-center gap-3">
+          <div className="hidden lg:flex items-center gap-4">
+            <LanguageToggleHeader scrolled={scrolled} />
             <a
               href="#favorites"
               className="inline-flex items-center gap-2 text-sm px-4 py-2 rounded-full bg-espresso text-cream hover:bg-bark transition"
             >
-              See What's Inside <Icon.Arrow className="w-4 h-4" />
+              {t.nav.cta} <Icon.Arrow className="w-4 h-4" />
             </a>
           </div>
 
-          <button
-            aria-label="Open menu"
-            aria-expanded={navOpen}
-            aria-controls="mobile-nav-drawer"
-            onClick={() => setNavOpen(true)}
-            className={`lg:hidden -mr-2 p-2.5 ${scrolled ? "text-espresso" : "text-cream"}`}
-          >
-            <Icon.Menu className="w-6 h-6" />
-          </button>
+          <div className="flex items-center gap-2 lg:hidden">
+            <LanguageToggleHeader scrolled={scrolled} />
+            <button
+              aria-label={t.aria.openMenu}
+              aria-expanded={navOpen}
+              aria-controls="mobile-nav-drawer"
+              onClick={() => setNavOpen(true)}
+              className={`-mr-2 p-2.5 ${scrolled ? "text-espresso" : "text-cream"}`}
+            >
+              <Icon.Menu className="w-6 h-6" />
+            </button>
+          </div>
         </div>
       </header>
 
@@ -182,14 +181,14 @@ export default function App() {
           id="mobile-nav-drawer"
           role="dialog"
           aria-modal="true"
-          aria-label="Site navigation"
+          aria-label={t.aria.siteNav}
           className={`absolute top-0 right-0 h-full w-[86%] max-w-sm bg-cream text-espresso p-8 transition-transform ${
             navOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
           <div className="flex items-center justify-between mb-10">
             <img src={LOGO} alt="Bean Crazy" className="h-9 w-auto" />
-            <button aria-label="Close" onClick={() => setNavOpen(false)} className="-mr-2.5 p-2.5">
+            <button aria-label={t.aria.closeMenu} onClick={() => setNavOpen(false)} className="-mr-2.5 p-2.5">
               <Icon.X className="w-6 h-6" />
             </button>
           </div>
@@ -205,16 +204,19 @@ export default function App() {
               </a>
             ))}
           </nav>
-          <a
-            href="#favorites"
-            onClick={() => setNavOpen(false)}
-            className="mt-8 inline-flex items-center gap-2 px-5 py-3 bg-espresso text-cream rounded-full"
-          >
-            See What's Inside <Icon.Arrow className="w-4 h-4" />
-          </a>
+          <div className="mt-8 flex items-center gap-4">
+            <LanguageToggle />
+            <a
+              href="#favorites"
+              onClick={() => setNavOpen(false)}
+              className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 bg-espresso text-cream rounded-full"
+            >
+              {t.nav.cta} <Icon.Arrow className="w-4 h-4" />
+            </a>
+          </div>
           <div className="mt-10 text-sm opacity-70 leading-relaxed">
-            West End Road · Half Moon Bay <br />
-            Mon–Sat 7am–5pm · Sun 7am–2pm
+            {t.drawer.hours} <br />
+            {t.drawer.hours2}
           </div>
         </aside>
       </div>
@@ -263,6 +265,7 @@ export default function App() {
 /* ================================================================== */
 
 function Hero() {
+  const { t } = useLanguage();
   return (
     <section id="top" className="relative h-[100svh] min-h-[640px] w-full overflow-hidden flex flex-col">
       <img
@@ -283,28 +286,28 @@ function Hero() {
       <div className="relative z-10 flex-1 min-h-0 w-full max-w-7xl mx-auto px-6 md:px-10 flex flex-col justify-end pb-6 md:pb-12">
         <div className="max-w-3xl fade-up">
           <div className="inline-flex items-center gap-2 text-cream/90 text-xs md:text-sm tracking-[0.28em] uppercase mb-6">
-            <Icon.Sun className="w-4 h-4" /> West End · Half Moon Bay · Roatán
+            <Icon.Sun className="w-4 h-4" /> {t.hero.kicker}
           </div>
           <h1 className="font-display text-cream text-[13vw] sm:text-6xl md:text-7xl lg:text-8xl leading-[0.95] tracking-tight">
-            Start your day
+            {t.hero.h1a}
             <br />
-            <em className="not-italic font-light italic-serif">the Roatán way.</em>
+            <em className="not-italic font-light italic-serif">{t.hero.h1b}</em>
           </h1>
           <p className="mt-6 text-cream/85 text-base md:text-lg max-w-xl leading-relaxed">
-            Fresh roasted Honduran coffee. Island breakfasts. Slow Caribbean mornings just steps from the water.
+            {t.hero.sub}
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <a
               href="#favorites"
               className="inline-flex items-center gap-2 bg-cream text-espresso px-6 py-3.5 rounded-full text-sm font-medium hover:bg-white transition"
             >
-              See What's Inside <Icon.Arrow className="w-4 h-4" />
+              {t.hero.ctaPrimary} <Icon.Arrow className="w-4 h-4" />
             </a>
             <a
               href="#visit"
               className="inline-flex items-center gap-2 border border-cream/60 text-cream px-6 py-3.5 rounded-full text-sm font-medium hover:bg-cream/10 transition"
             >
-              <Icon.Pin className="w-4 h-4" /> Find Us
+              <Icon.Pin className="w-4 h-4" /> {t.hero.ctaSecondary}
             </a>
           </div>
         </div>
@@ -318,10 +321,10 @@ function Hero() {
             <div className="flex text-coral">
               {[...Array(5)].map((_, i) => <Icon.Star key={i} className="w-3.5 h-3.5" />)}
             </div>
-            <span>4.6 · 341+ Tripadvisor reviews</span>
+            <span>{t.hero.stat1}</span>
           </div>
-          <div className="hidden md:block opacity-70">Ranked #26 of 215 restaurants in West End</div>
-          <div className="opacity-80">Mon–Sat 7am–5pm · Sun 7am–2pm</div>
+          <div className="hidden md:block opacity-70">{t.hero.stat2}</div>
+          <div className="opacity-80">{t.hero.stat3}</div>
         </div>
       </div>
     </section>
@@ -333,16 +336,8 @@ function Hero() {
 /* ================================================================== */
 
 function Marquee() {
-  const words = [
-    "Fresh Roasted Honduran Coffee",
-    "Island Breakfasts",
-    "Half Moon Bay",
-    "Best Cappuccino in West End",
-    "Home-Baked Pastries",
-    "Fresh Pressed Juice",
-    "Ocean Views",
-    "Roasted In-House",
-  ];
+  const { t } = useLanguage();
+  const words = t.marquee;
   const line = [...words, ...words];
   return (
     <div className="bg-espresso text-cream border-y border-espresso/10 overflow-hidden py-5">
@@ -363,6 +358,7 @@ function Marquee() {
 /* ================================================================== */
 
 function Story() {
+  const { t } = useLanguage();
   return (
     <section id="story" className="relative py-24 md:py-36 bg-cream">
       <div className="max-w-7xl mx-auto px-6 md:px-10 grid md:grid-cols-12 gap-10 md:gap-16 items-center">
@@ -376,35 +372,19 @@ function Story() {
         </div>
 
         <div className="md:col-span-7 reveal">
-          <div className="text-xs uppercase tracking-[0.28em] text-teal-deep mb-5">Our Story</div>
+          <div className="text-xs uppercase tracking-[0.28em] text-teal-deep mb-5">{t.story.kicker}</div>
           <h2 className="font-display text-4xl md:text-6xl leading-[1.02] tracking-tight text-espresso">
-            More than a coffee shop. <br />
-            <em className="text-sage-deep font-light italic">A morning ritual.</em>
+            {t.story.h2a} <br />
+            <em className="text-sage-deep font-light italic">{t.story.h2b}</em>
           </h2>
           <div className="mt-8 space-y-5 text-espresso/80 text-lg leading-relaxed max-w-xl">
-            <p>
-              Bean Crazy started with a simple idea — good coffee, made with care, in a place worth
-              lingering in. We roast our beans across the hall, sourced from small Honduran farms
-              a few hours away by ferry, so what lands in your cup was likely still green a day or two ago.
-            </p>
-            <p>
-              Mornings here move at island speed. The espresso machine hisses, the pastries come out
-              warm, guests drift in from the beach still smelling of sunscreen, and by 9am half the
-              room is on a first-name basis with our team.
-            </p>
-            <p>
-              Some guests come once. Most come back the next morning. And plenty plan their whole
-              Roatán trip around a table by the window and a cappuccino they've been thinking about
-              all year.
-            </p>
+            {t.story.p.map((p, i) => (
+              <p key={i}>{p}</p>
+            ))}
           </div>
 
           <div className="mt-10 grid grid-cols-3 gap-3 sm:gap-6 max-w-lg">
-            {[
-              ["4.6★", "Rating on Tripadvisor"],
-              ["100%", "Honduran-grown beans"],
-              ["7am", "Doors open daily"],
-            ].map(([n, l]) => (
+            {t.story.stats.map(([n, l]) => (
               <div key={l}>
                 <div className="font-display text-3xl md:text-4xl text-espresso">{n}</div>
                 <div className="text-xs uppercase tracking-widest text-espresso/60 mt-1">{l}</div>
@@ -422,6 +402,7 @@ function Story() {
 /* ================================================================== */
 
 function CoffeeSection() {
+  const { t } = useLanguage();
   return (
     <section id="coffee" className="relative py-24 md:py-36 bg-espresso text-cream overflow-hidden">
       <img
@@ -435,27 +416,21 @@ function CoffeeSection() {
       <div className="relative max-w-7xl mx-auto px-6 md:px-10">
         <div className="grid md:grid-cols-2 gap-12 md:gap-20 items-center">
           <div className="reveal order-2 md:order-1">
-            <div className="text-xs uppercase tracking-[0.28em] text-clay mb-5">Fresh Roasted Honduran Coffee</div>
+            <div className="text-xs uppercase tracking-[0.28em] text-clay mb-5">{t.coffee.kicker}</div>
             <h2 className="font-display text-4xl md:text-6xl leading-[1.02] tracking-tight">
-              Roasted across the hall. <br/>
-              <em className="italic font-light text-clay">Served with the sunrise.</em>
+              {t.coffee.h2a} <br/>
+              <em className="italic font-light text-clay">{t.coffee.h2b}</em>
             </h2>
             <p className="mt-6 text-cream/75 text-lg leading-relaxed max-w-lg">
-              Our beans come from small Honduran farms and are roasted right across the hall —
-              a few steps from where you're sitting. No middlemen, no month-old bags, no
-              compromise on the cup.
+              {t.coffee.p}
             </p>
 
             <ul className="mt-8 space-y-4">
-              {[
-                ["Single-origin", "Small-lot Honduran arabica, roasted weekly in-house."],
-                ["Whole bean & ground", "Take a bag home — roasted on site, from $12/lb."],
-                ["Coffee gifts", "Beautiful bags, mugs, and gift sets in our shop."],
-              ].map(([t, d]) => (
-                <li key={t} className="flex gap-4">
+              {t.coffee.features.map(([ft, d]) => (
+                <li key={ft} className="flex gap-4">
                   <span className="mt-1.5 w-2 h-2 rounded-full bg-clay shrink-0" />
                   <div>
-                    <div className="font-medium text-cream">{t}</div>
+                    <div className="font-medium text-cream">{ft}</div>
                     <div className="text-cream/65 text-sm">{d}</div>
                   </div>
                 </li>
@@ -464,10 +439,10 @@ function CoffeeSection() {
 
             <div className="mt-10 flex flex-wrap gap-3">
               <a href="#favorites" className="inline-flex items-center gap-2 bg-cream text-espresso px-6 py-3 rounded-full text-sm hover:bg-white transition">
-                See What's Inside <Icon.Arrow className="w-4 h-4" />
+                {t.coffee.cta1} <Icon.Arrow className="w-4 h-4" />
               </a>
               <a href="#visit" className="inline-flex items-center gap-2 border border-cream/40 px-6 py-3 rounded-full text-sm hover:bg-cream/10 transition">
-                Take Beans Home
+                {t.coffee.cta2}
               </a>
             </div>
           </div>
@@ -481,9 +456,9 @@ function CoffeeSection() {
               <img src={IMG.latteArt} className="col-span-3 row-span-3 rounded-2xl object-cover w-full h-full" alt="Latte art"/>
             </div>
             <div className="absolute -bottom-6 -left-4 bg-cream text-espresso px-5 py-4 rounded-2xl shadow-2xl max-w-[220px] hidden md:block">
-              <div className="text-xs uppercase tracking-widest opacity-60 mb-1">Today's Roast</div>
-              <div className="font-display text-lg leading-tight">Honduran Single-Origin</div>
-              <div className="text-xs mt-1 text-espresso/70">Roasted fresh, in-house</div>
+              <div className="text-xs uppercase tracking-widest opacity-60 mb-1">{t.coffee.badgeKicker}</div>
+              <div className="font-display text-lg leading-tight">{t.coffee.badgeTitle}</div>
+              <div className="text-xs mt-1 text-espresso/70">{t.coffee.badgeSub}</div>
             </div>
           </div>
         </div>
@@ -497,26 +472,22 @@ function CoffeeSection() {
 /* ================================================================== */
 
 function Favorites() {
-  const items = [
-    { img: IMG_REAL.breakfast, name: "Honduran Breakfast Plates", note: "Huevos rancheros, baleadas & more" },
-    { img: IMG.breakfast4, name: "Waffles & Classics", note: "All-day breakfast favourites" },
-    { img: IMG_REAL.lunch, name: "Burgers & Sandwiches", note: "Guest-favourite lunch plates" },
-    { img: IMG.bakery3, name: "Fresh-Baked Daily", note: "Banana bread, cinnamon rolls, cookies" },
-  ];
+  const { t } = useLanguage();
+  const imgs = [IMG_REAL.breakfast, IMG.breakfast4, IMG_REAL.lunch, IMG.bakery3];
+  const items = t.favorites.items.map((it, i) => ({ ...it, img: imgs[i] }));
   return (
     <section id="favorites" className="py-24 md:py-36 bg-linen">
       <div className="max-w-7xl mx-auto px-6 md:px-10">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-14 reveal">
           <div className="max-w-xl">
-            <div className="text-xs uppercase tracking-[0.28em] text-teal-deep mb-5">What People Come Back For</div>
+            <div className="text-xs uppercase tracking-[0.28em] text-teal-deep mb-5">{t.favorites.kicker}</div>
             <h2 className="font-display text-4xl md:text-6xl leading-[1.02] tracking-tight text-espresso">
-              The reason people <br/>
-              <em className="italic font-light text-teal-deep">set an alarm on vacation.</em>
+              {t.favorites.h2a} <br/>
+              <em className="italic font-light text-teal-deep">{t.favorites.h2b}</em>
             </h2>
           </div>
           <p className="max-w-md text-espresso/70 leading-relaxed">
-            Reviewers keep mentioning the same things: hearty Honduran breakfast plates, good
-            burgers and sandwiches, and fresh-baked treats that don't last past noon.
+            {t.favorites.p}
           </p>
         </div>
 
@@ -540,7 +511,7 @@ function Favorites() {
         </div>
 
         <p className="mt-10 text-center text-espresso/50 text-sm reveal">
-          Full menu and current prices available in-house — ask your server.
+          {t.favorites.footer}
         </p>
       </div>
     </section>
@@ -552,6 +523,7 @@ function Favorites() {
 /* ================================================================== */
 
 function Vibes() {
+  const { t } = useLanguage();
   return (
     <section id="vibes" className="relative py-24 md:py-36 overflow-hidden">
       <div className="absolute inset-0">
@@ -559,14 +531,13 @@ function Vibes() {
         <div className="absolute inset-0 bg-gradient-to-b from-teal-deep/70 via-teal-deep/40 to-teal-deep/80" />
       </div>
       <div className="relative max-w-6xl mx-auto px-6 md:px-10 text-center text-cream reveal">
-        <div className="text-xs uppercase tracking-[0.32em] text-cream/80 mb-6">Oceanfront Island Vibes</div>
+        <div className="text-xs uppercase tracking-[0.32em] text-cream/80 mb-6">{t.vibes.kicker}</div>
         <h2 className="font-display text-5xl md:text-7xl lg:text-8xl leading-[0.98] tracking-tight">
-          The Caribbean is <br/>
-          <em className="italic font-light">right outside the door.</em>
+          {t.vibes.h2a} <br/>
+          <em className="italic font-light">{t.vibes.h2b}</em>
         </h2>
         <p className="mt-8 text-cream/85 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-          Half Moon Bay is a two-minute walk from your table. Warm sand between coffee refills.
-          A sunbed on the beach after your third cappuccino. Somehow, no one's ever in a hurry.
+          {t.vibes.p}
         </p>
         <div className="mt-12 grid sm:grid-cols-3 gap-4 md:gap-6 max-w-4xl mx-auto">
           {[IMG.beach2, IMG.beach3, IMG.beach4].map((src, i) => (
@@ -583,21 +554,15 @@ function Vibes() {
 /* ================================================================== */
 
 function WhyLove() {
-  const items = [
-    { n: "01", t: "Freshest coffee on the island", d: "Roasted a few steps from your cup. Small Honduran farms, small-batch roasts." },
-    { n: "02", t: "The breakfast people plan around", d: "Baleadas, benedicts, avocado toast, waffles. All-day. All excellent." },
-    { n: "03", t: "The staff people rebook to see", d: "Ask any regular — Angie, Jackson, Jenny, Rhianna. They make the place." },
-    { n: "04", t: "Right on Half Moon Bay", d: "Two minutes to the sand, with an ocean breeze that's always included." },
-    { n: "05", t: "A/C when the island gets hot", d: "Cool inside, warm hospitality. The best of both." },
-    { n: "06", t: "A vacation tradition", d: "Multi-year regulars. First-timers who rebook before flying home. That kind of place." },
-  ];
+  const { t } = useLanguage();
+  const items = t.whyLove.items.map((it, i) => ({ ...it, n: String(i + 1).padStart(2, "0") }));
   return (
     <section className="py-24 md:py-32 bg-cream">
       <div className="max-w-7xl mx-auto px-6 md:px-10">
         <div className="max-w-2xl reveal">
-          <div className="text-xs uppercase tracking-[0.28em] text-teal-deep mb-5">Why Travelers Love Bean Crazy</div>
+          <div className="text-xs uppercase tracking-[0.28em] text-teal-deep mb-5">{t.whyLove.kicker}</div>
           <h2 className="font-display text-4xl md:text-6xl leading-[1.02] tracking-tight text-espresso">
-            Six reasons you'll <em className="italic font-light text-teal-deep">come back tomorrow.</em>
+            {t.whyLove.h2a} <em className="italic font-light text-teal-deep">{t.whyLove.h2b}</em>
           </h2>
         </div>
         <div className="mt-14 grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
@@ -623,6 +588,7 @@ function WhyLove() {
 /* ================================================================== */
 
 function ReviewsSection() {
+  const { t } = useLanguage();
   const scroller = useRef<HTMLDivElement | null>(null);
   const scroll = (dir: number) => {
     scroller.current?.scrollBy({ left: dir * 360, behavior: "smooth" });
@@ -632,16 +598,16 @@ function ReviewsSection() {
       <div className="max-w-7xl mx-auto px-6 md:px-10">
         <div className="flex items-end justify-between gap-4 mb-10 reveal">
           <div>
-            <div className="text-xs uppercase tracking-[0.28em] text-teal-deep mb-5">Reviews</div>
+            <div className="text-xs uppercase tracking-[0.28em] text-teal-deep mb-5">{t.reviews.kicker}</div>
             <h2 className="font-display text-4xl md:text-6xl leading-[1.02] tracking-tight text-espresso max-w-xl">
-              Loved by locals. <em className="italic font-light text-sage-deep">Missed by travelers.</em>
+              {t.reviews.h2a} <em className="italic font-light text-sage-deep">{t.reviews.h2b}</em>
             </h2>
           </div>
           <div className="hidden md:flex gap-2">
-            <button aria-label="Prev" onClick={() => scroll(-1)} className="w-11 h-11 rounded-full border border-espresso/20 grid place-items-center hover:bg-espresso hover:text-cream transition">
+            <button aria-label={t.reviews.prev} onClick={() => scroll(-1)} className="w-11 h-11 rounded-full border border-espresso/20 grid place-items-center hover:bg-espresso hover:text-cream transition">
               <Icon.Arrow className="w-4 h-4 rotate-180" />
             </button>
-            <button aria-label="Next" onClick={() => scroll(1)} className="w-11 h-11 rounded-full border border-espresso/20 grid place-items-center hover:bg-espresso hover:text-cream transition">
+            <button aria-label={t.reviews.next} onClick={() => scroll(1)} className="w-11 h-11 rounded-full border border-espresso/20 grid place-items-center hover:bg-espresso hover:text-cream transition">
               <Icon.Arrow className="w-4 h-4" />
             </button>
           </div>
@@ -652,13 +618,13 @@ function ReviewsSection() {
             <div className="flex text-coral">
               {[...Array(5)].map((_, i) => <Icon.Star key={i} className="w-4 h-4"/>)}
             </div>
-            <span><strong className="text-espresso">4.6</strong> on Tripadvisor · 341 reviews</span>
+            <span><strong className="text-espresso">4.6</strong> {t.reviews.statTripadvisor}</span>
           </div>
           <div className="hidden sm:flex items-center gap-2">
             <div className="flex text-coral">
               {[...Array(5)].map((_, i) => <Icon.Star key={i} className="w-4 h-4"/>)}
             </div>
-            <span>Also loved on Google · 4.4 · 479 reviews</span>
+            <span>{t.reviews.statGoogle}</span>
           </div>
         </div>
 
@@ -666,7 +632,7 @@ function ReviewsSection() {
           ref={scroller}
           className="flex gap-5 overflow-x-auto no-scrollbar snap-x snap-mandatory -mx-6 px-6 md:mx-0 md:px-0 pb-4"
         >
-          {REVIEWS.map((r, i) => (
+          {t.reviews.items.map((r, i) => (
             <article
               key={i}
               className="reveal snap-start shrink-0 w-[85%] sm:w-[420px] bg-cream rounded-3xl p-7 md:p-8 border border-espresso/5 shadow-sm"
@@ -696,43 +662,42 @@ function ReviewsSection() {
 /* ================================================================== */
 
 function Visit() {
+  const { t } = useLanguage();
   return (
     <section id="visit" className="py-24 md:py-32 bg-espresso text-cream">
       <div className="max-w-7xl mx-auto px-6 md:px-10 grid md:grid-cols-2 gap-12 md:gap-16 items-start">
         <div className="reveal">
-          <div className="text-xs uppercase tracking-[0.28em] text-clay mb-5">Visit Us</div>
+          <div className="text-xs uppercase tracking-[0.28em] text-clay mb-5">{t.visit.kicker}</div>
           <h2 className="font-display text-4xl md:text-6xl leading-[1.02] tracking-tight">
-            Come find your <em className="italic font-light text-clay">table by the window.</em>
+            {t.visit.h2a} <em className="italic font-light text-clay">{t.visit.h2b}</em>
           </h2>
           <p className="mt-6 text-cream/75 text-lg leading-relaxed max-w-lg">
-            Right on West End Road, between Carlito's Wave Inn and the Tucán Gift Shop,
-            steps from Half Moon Bay.
+            {t.visit.p}
           </p>
 
           <dl className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-lg">
             <div>
-              <dt className="text-[10px] uppercase tracking-widest text-cream/50 mb-2">Address</dt>
+              <dt className="text-[10px] uppercase tracking-widest text-cream/50 mb-2">{t.visit.addressLabel}</dt>
               <dd className="leading-relaxed">
-                West End Road<br/>
-                Half Moon Bay<br/>
-                West End, Roatán 34101<br/>
-                Bay Islands, Honduras
+                {t.visit.address.map((line, i) => (
+                  <span key={i}>{line}{i < t.visit.address.length - 1 && <br/>}</span>
+                ))}
               </dd>
             </div>
             <div>
-              <dt className="text-[10px] uppercase tracking-widest text-cream/50 mb-2">Hours</dt>
+              <dt className="text-[10px] uppercase tracking-widest text-cream/50 mb-2">{t.visit.hoursLabel}</dt>
               <dd className="leading-relaxed">
-                Mon–Sat · 7am – 5pm<br/>
-                Sun · 7am – 2pm<br/>
-                <span className="text-cream/60">Breakfast served all day</span>
+                {t.visit.hours[0]}<br/>
+                {t.visit.hours[1]}<br/>
+                <span className="text-cream/60">{t.visit.hoursNote}</span>
               </dd>
             </div>
             <div>
-              <dt className="text-[10px] uppercase tracking-widest text-cream/50 mb-2">Phone / WhatsApp</dt>
+              <dt className="text-[10px] uppercase tracking-widest text-cream/50 mb-2">{t.visit.phoneLabel}</dt>
               <dd><a href="tel:+50496228396" className="hover:text-clay">+504 9622-8396</a></dd>
             </div>
             <div>
-              <dt className="text-[10px] uppercase tracking-widest text-cream/50 mb-2">Email</dt>
+              <dt className="text-[10px] uppercase tracking-widest text-cream/50 mb-2">{t.visit.emailLabel}</dt>
               <dd><a href="mailto:bcrazyraotan@gmail.com" className="hover:text-clay">bcrazyraotan@gmail.com</a></dd>
             </div>
           </dl>
@@ -743,21 +708,21 @@ function Visit() {
               target="_blank" rel="noopener"
               className="inline-flex items-center gap-2 bg-cream text-espresso px-6 py-3 rounded-full text-sm hover:bg-white transition"
             >
-              <Icon.Pin className="w-4 h-4"/> Get Directions
+              <Icon.Pin className="w-4 h-4"/> {t.visit.directions}
             </a>
             <a
               href="https://wa.me/50496228396"
               target="_blank" rel="noopener"
               className="inline-flex items-center gap-2 border border-cream/40 px-6 py-3 rounded-full text-sm hover:bg-cream/10 transition"
             >
-              <Icon.Whats className="w-4 h-4"/> WhatsApp Us
+              <Icon.Whats className="w-4 h-4"/> {t.visit.whatsapp}
             </a>
           </div>
         </div>
 
         <div className="reveal rounded-3xl overflow-hidden border border-cream/10 aspect-[4/5] md:aspect-auto md:h-[620px]">
           <iframe
-            title="Bean Crazy on the map"
+            title={t.visit.mapTitle}
             src="https://www.google.com/maps?q=Bean+Crazy+Cafe+West+End+Roatan&output=embed"
             className="w-full h-full grayscale-[30%]"
             loading="lazy"
@@ -774,15 +739,15 @@ function Visit() {
 /* ================================================================== */
 
 function Footer() {
+  const { t } = useLanguage();
   return (
     <footer className="bg-bark text-cream/85">
       <div className="max-w-7xl mx-auto px-6 md:px-10 py-16 grid md:grid-cols-4 gap-10">
         <div className="md:col-span-2">
           <img src={LOGO} alt="Bean Crazy" className="h-11 w-auto invert" />
-          <div className="mt-2 text-[10px] uppercase tracking-[0.22em] text-cream/70">Roatán · West End</div>
+          <div className="mt-2 text-[10px] uppercase tracking-[0.22em] text-cream/70">{t.footer.area}</div>
           <p className="mt-6 max-w-md leading-relaxed">
-            Fresh roasted Honduran coffee, island breakfasts and slow Caribbean mornings on
-            Half Moon Bay, West End, Roatán. More than a coffee shop — a Roatán tradition.
+            {t.footer.tagline}
           </p>
           <div className="mt-6 flex gap-3">
             {[
@@ -798,39 +763,31 @@ function Footer() {
         </div>
 
         <div>
-          <div className="text-[10px] uppercase tracking-widest text-cream/50 mb-4">Visit</div>
+          <div className="text-[10px] uppercase tracking-widest text-cream/50 mb-4">{t.footer.visitLabel}</div>
           <ul className="space-y-2 leading-relaxed">
-            <li>West End Road</li>
-            <li>Half Moon Bay</li>
-            <li>West End, Roatán 34101</li>
-            <li>Honduras</li>
+            {t.footer.address.map((line, i) => <li key={i}>{line}</li>)}
             <li className="pt-3"><a className="hover:text-cream" href="tel:+50496228396">+504 9622-8396</a></li>
             <li><a className="hover:text-cream" href="mailto:bcrazyraotan@gmail.com">bcrazyraotan@gmail.com</a></li>
           </ul>
         </div>
 
         <div>
-          <div className="text-[10px] uppercase tracking-widest text-cream/50 mb-4">Hours</div>
+          <div className="text-[10px] uppercase tracking-widest text-cream/50 mb-4">{t.footer.hoursLabel}</div>
           <ul className="space-y-1.5">
-            <li className="flex justify-between"><span>Mon</span><span>7 – 5</span></li>
-            <li className="flex justify-between"><span>Tue</span><span>7 – 5</span></li>
-            <li className="flex justify-between"><span>Wed</span><span>7 – 5</span></li>
-            <li className="flex justify-between"><span>Thu</span><span>7 – 5</span></li>
-            <li className="flex justify-between"><span>Fri</span><span>7 – 5</span></li>
-            <li className="flex justify-between"><span>Sat</span><span>7 – 5</span></li>
-            <li className="flex justify-between"><span>Sun</span><span>7 – 2</span></li>
+            {t.footer.days.map((d, i) => (
+              <li key={d} className="flex justify-between"><span>{d}</span><span>{t.footer.hoursValues[i]}</span></li>
+            ))}
           </ul>
         </div>
       </div>
 
       <div className="border-t border-cream/10">
         <div className="max-w-7xl mx-auto px-6 md:px-10 py-6 flex flex-col md:flex-row justify-between gap-3 text-xs text-cream/60">
-          <div>© {new Date().getFullYear()} Bean Crazy Café & Breakfast · West End, Roatán</div>
+          <div>© {new Date().getFullYear()} {t.footer.copyright}</div>
           <div className="flex gap-5">
-            <a href="#story" className="hover:text-cream">Story</a>
-            <a href="#favorites" className="hover:text-cream">Favorites</a>
-            <a href="#reviews" className="hover:text-cream">Reviews</a>
-            <a href="#visit" className="hover:text-cream">Visit</a>
+            {t.footer.links.map(([l, id]) => (
+              <a key={id} href={`#${id}`} className="hover:text-cream">{l}</a>
+            ))}
           </div>
         </div>
       </div>
@@ -843,6 +800,7 @@ function Footer() {
 /* ================================================================== */
 
 function FloatingButtons() {
+  const { t } = useLanguage();
   return (
     <div
       className="fixed right-4 sm:right-5 z-40 flex flex-col gap-2.5 sm:gap-3"
@@ -851,7 +809,7 @@ function FloatingButtons() {
       <a
         href="https://wa.me/50496228396"
         target="_blank" rel="noopener"
-        aria-label="WhatsApp Bean Crazy"
+        aria-label={t.aria.whatsappBtn}
         className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#25D366] text-white grid place-items-center shadow-xl hover:scale-105 transition animate-floaty"
       >
         <Icon.Whats className="w-6 h-6 sm:w-7 sm:h-7"/>
@@ -859,7 +817,7 @@ function FloatingButtons() {
       <a
         href="https://maps.google.com/?q=Bean+Crazy+Cafe+West+End+Roatan"
         target="_blank" rel="noopener"
-        aria-label="Directions to Bean Crazy"
+        aria-label={t.aria.directionsBtn}
         className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-espresso text-cream grid place-items-center shadow-xl hover:scale-105 transition"
       >
         <Icon.Pin className="w-5 h-5 sm:w-6 sm:h-6"/>
