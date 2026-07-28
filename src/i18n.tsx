@@ -271,7 +271,7 @@ const content: Record<Lang, Content> = {
       features: [
         ["Origen único", "Arábica hondureño de lote pequeño, tostado semanalmente en casa."],
         ["Grano entero y molido", "Llévate una bolsa a casa — tostado en el local, desde $12/lb."],
-        ["Regalos de café", "Hermosas bolsas, tazas y sets de regalo en nuestra tienda."],
+        ["Ideas para Regalar", "Hermosas bolsas, tazas y sets de regalo en nuestra tienda."],
       ] as [string, string][],
       cta1: "Ver el Menú",
       cta2: "Llévate Café a Casa",

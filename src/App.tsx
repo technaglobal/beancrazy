@@ -837,16 +837,20 @@ function PreviewWatermark() {
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 bg-espresso/80 text-cream/90 backdrop-blur-md border-t border-cream/10">
       <p className="max-w-7xl mx-auto px-4 py-2 text-center text-[10.5px] leading-snug sm:text-xs">
-        This new website preview has been created by Deepwater Digital Labs for Bean Crazy. All
-        Rights Reserved.{"\u00A0"}
-        <a
-          href="https://wethinkdeeper.com"
-          target="_blank"
-          rel="noopener"
-          className="underline underline-offset-2 hover:text-cream transition whitespace-nowrap"
-        >
-          wethinkdeeper.com
-        </a>
+        <span className="block sm:inline">
+          This new website preview has been created by Deepwater Digital Labs for Bean Crazy.
+        </span>{" "}
+        <span className="block sm:inline whitespace-nowrap">
+          All Rights Reserved.{"\u00A0"}
+          <a
+            href="https://wethinkdeeper.com"
+            target="_blank"
+            rel="noopener"
+            className="underline underline-offset-2 hover:text-cream transition"
+          >
+            wethinkdeeper.com
+          </a>
+        </span>
       </p>
     </div>
   );
