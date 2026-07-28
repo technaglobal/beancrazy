@@ -458,14 +458,14 @@ function FlagHN(p: React.SVGProps<SVGSVGElement>) {
         <circle cx="16" cy="16" r="16" />
       </clipPath>
       <g clipPath="url(#hn-circle)">
-        <rect width="32" height="10.67" y="0" fill="#0073CF" />
-        <rect width="32" height="10.67" y="10.67" fill="#fff" />
-        <rect width="32" height="10.67" y="21.33" fill="#0073CF" />
-        <g fill="#0073CF">
-          {[[16, 13.8], [12.4, 15.6], [19.6, 15.6], [13.2, 19.2], [18.8, 19.2]].map(([cx, cy], i) => (
+        <rect width="32" height="10.667" y="0" fill="#00BCE4" />
+        <rect width="32" height="10.667" y="10.667" fill="#fff" />
+        <rect width="32" height="10.667" y="21.333" fill="#00BCE4" />
+        <g fill="#00BCE4">
+          {[[7.1, 13.31], [24.9, 13.31], [16, 16], [7.1, 18.66], [24.9, 18.66]].map(([cx, cy], i) => (
             <path
               key={i}
-              transform={`translate(${cx} ${cy}) scale(0.34)`}
+              transform={`translate(${cx} ${cy}) scale(0.4706)`}
               d="M0 -3.4 0.99 -1.05 3.23 -1.05 1.4 0.4 2.1 2.75 0 1.3 -2.1 2.75 -1.4 0.4 -3.23 -1.05 -0.99 -1.05Z"
             />
           ))}
