@@ -251,6 +251,9 @@ export default function App() {
 
       {/* Floating action buttons */}
       <FloatingButtons />
+
+      {/* Preview watermark — remove before/at launch */}
+      <PreviewWatermark />
     </div>
   );
 }
@@ -843,7 +846,7 @@ function FloatingButtons() {
   return (
     <div
       className="fixed right-4 sm:right-5 z-40 flex flex-col gap-2.5 sm:gap-3"
-      style={{ bottom: "max(1.1rem, calc(env(safe-area-inset-bottom) + 0.75rem))" }}
+      style={{ bottom: "max(3.2rem, calc(env(safe-area-inset-bottom) + 2.85rem))" }}
     >
       <a
         href="https://wa.me/50496228396"
@@ -861,6 +864,30 @@ function FloatingButtons() {
       >
         <Icon.Pin className="w-5 h-5 sm:w-6 sm:h-6"/>
       </a>
+    </div>
+  );
+}
+
+/* ================================================================== */
+/* PREVIEW WATERMARK                                                   */
+/* ================================================================== */
+
+function PreviewWatermark() {
+  return (
+    <div className="fixed bottom-0 left-0 right-0 z-50 bg-espresso/95 text-cream/90 text-[11px] sm:text-xs backdrop-blur-sm border-t border-cream/10">
+      <div className="max-w-7xl mx-auto px-4 py-2 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center">
+        <span>
+          This new website preview has been created by Deepwater Digital Labs for Bean Crazy. All Rights Reserved.
+        </span>
+        <a
+          href="https://wethinkdeeper.com"
+          target="_blank"
+          rel="noopener"
+          className="underline underline-offset-2 hover:text-cream transition"
+        >
+          wethinkdeeper.com
+        </a>
+      </div>
     </div>
   );
 }
