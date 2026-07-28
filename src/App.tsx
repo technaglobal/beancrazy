@@ -773,9 +773,12 @@ function Footer() {
 
         <div>
           <div className="text-[10px] uppercase tracking-widest text-cream/50 mb-4">{t.footer.hoursLabel}</div>
-          <ul className="space-y-1.5">
+          <ul className="space-y-1.5 max-w-[140px]">
             {t.footer.days.map((d, i) => (
-              <li key={d} className="flex justify-between"><span>{d}</span><span>{t.footer.hoursValues[i]}</span></li>
+              <li key={d} className="flex items-baseline gap-3">
+                <span className="w-9 shrink-0">{d}</span>
+                <span className="text-cream/65">{t.footer.hoursValues[i]}</span>
+              </li>
             ))}
           </ul>
         </div>
@@ -804,7 +807,7 @@ function FloatingButtons() {
   return (
     <div
       className="fixed right-4 sm:right-5 z-40 flex flex-col gap-2.5 sm:gap-3"
-      style={{ bottom: "max(3.2rem, calc(env(safe-area-inset-bottom) + 2.85rem))" }}
+      style={{ bottom: "max(4.1rem, calc(env(safe-area-inset-bottom) + 3.7rem))" }}
     >
       <a
         href="https://wa.me/50496228396"
@@ -832,20 +835,19 @@ function FloatingButtons() {
 
 function PreviewWatermark() {
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 bg-espresso/95 text-cream/90 text-[11px] sm:text-xs backdrop-blur-sm border-t border-cream/10">
-      <div className="max-w-7xl mx-auto px-4 py-2 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center">
-        <span>
-          This new website preview has been created by Deepwater Digital Labs for Bean Crazy. All Rights Reserved.
-        </span>
+    <div className="fixed bottom-0 left-0 right-0 z-50 bg-espresso/80 text-cream/90 backdrop-blur-md border-t border-cream/10">
+      <p className="max-w-7xl mx-auto px-4 py-2 text-center text-[10.5px] leading-snug sm:text-xs">
+        This new website preview has been created by Deepwater Digital Labs for Bean Crazy. All
+        Rights Reserved.{"\u00A0"}
         <a
           href="https://wethinkdeeper.com"
           target="_blank"
           rel="noopener"
-          className="underline underline-offset-2 hover:text-cream transition"
+          className="underline underline-offset-2 hover:text-cream transition whitespace-nowrap"
         >
           wethinkdeeper.com
         </a>
-      </div>
+      </p>
     </div>
   );
 }
