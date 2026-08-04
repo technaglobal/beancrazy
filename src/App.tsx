@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { IMG, IMG_REAL, LOGO } from "./data";
 import { useLanguage, LanguageToggleHeader, LanguageToggle } from "./i18n";
+import { LOCATIONS, useBeanLocation, mapsEmbedSrc, mapsDirectionsHref } from "./locations";
 
 /* ---------- Small helpers ---------- */
 
@@ -552,8 +553,11 @@ function Vibes() {
 /* ================================================================== */
 
 function WhyLove() {
-  const { t } = useLanguage();
-  const items = t.whyLove.items.map((it, i) => ({ ...it, n: String(i + 1).padStart(2, "0") }));
+  const { t, lang } = useLanguage();
+  const { location } = useBeanLocation();
+  const items = t.whyLove.items
+    .map((it, i) => (i === 3 ? location.highlight[lang] : it))
+    .map((it, i) => ({ ...it, n: String(i + 1).padStart(2, "0") }));
   return (
     <section className="py-24 md:py-32 bg-cream">
       <div className="max-w-7xl mx-auto px-6 md:px-10">
@@ -659,8 +663,34 @@ function ReviewsSection() {
 /* VISIT                                                               */
 /* ================================================================== */
 
+function LocationPills() {
+  const { locationId, setLocationId } = useBeanLocation();
+  const { lang } = useLanguage();
+  return (
+    <div role="group" aria-label="Choose a location" className="flex flex-wrap gap-2 mt-5 mb-8">
+      {LOCATIONS.map((loc) => (
+        <button
+          key={loc.id}
+          type="button"
+          aria-pressed={locationId === loc.id}
+          onClick={() => setLocationId(loc.id)}
+          className={`px-4 py-2 rounded-full text-sm tracking-wide border transition ${
+            locationId === loc.id
+              ? "bg-cream text-espresso border-cream"
+              : "border-cream/30 text-cream/75 hover:bg-cream/10 hover:text-cream"
+          }`}
+        >
+          {loc.label}
+        </button>
+      ))}
+      <span className="sr-only">{lang === "es" ? "Elige una ubicación" : "Choose a location"}</span>
+    </div>
+  );
+}
+
 function Visit() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+  const { location } = useBeanLocation();
   return (
     <section id="visit" className="py-24 md:py-32 bg-espresso text-cream">
       <div className="max-w-7xl mx-auto px-6 md:px-10 grid md:grid-cols-2 gap-12 md:gap-16 items-start">
@@ -669,47 +699,50 @@ function Visit() {
           <h2 className="font-display text-4xl md:text-6xl leading-[1.02] tracking-tight">
             {t.visit.h2a} <em className="italic font-light text-clay">{t.visit.h2b}</em>
           </h2>
-          <p className="mt-6 text-cream/75 text-lg leading-relaxed max-w-lg">
-            {t.visit.p}
+
+          <LocationPills />
+
+          <p className="text-cream/75 text-lg leading-relaxed max-w-lg">
+            {location.description[lang]}
           </p>
 
           <dl className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-lg">
             <div>
               <dt className="text-[10px] uppercase tracking-widest text-cream/50 mb-2">{t.visit.addressLabel}</dt>
               <dd className="leading-relaxed">
-                {t.visit.address.map((line, i) => (
-                  <span key={i}>{line}{i < t.visit.address.length - 1 && <br/>}</span>
+                {location.addressLines.map((line, i) => (
+                  <span key={i}>{line}{i < location.addressLines.length - 1 && <br/>}</span>
                 ))}
               </dd>
             </div>
             <div>
               <dt className="text-[10px] uppercase tracking-widest text-cream/50 mb-2">{t.visit.hoursLabel}</dt>
               <dd className="leading-relaxed">
-                {t.visit.hours[0]}<br/>
-                {t.visit.hours[1]}<br/>
+                {location.hours[0]}<br/>
+                {location.hours[1]}<br/>
                 <span className="text-cream/60">{t.visit.hoursNote}</span>
               </dd>
             </div>
             <div>
               <dt className="text-[10px] uppercase tracking-widest text-cream/50 mb-2">{t.visit.phoneLabel}</dt>
-              <dd><a href="tel:+50496228396" className="hover:text-clay">+504 9622-8396</a></dd>
+              <dd><a href={location.telHref} className="hover:text-clay">{location.phone}</a></dd>
             </div>
             <div>
               <dt className="text-[10px] uppercase tracking-widest text-cream/50 mb-2">{t.visit.emailLabel}</dt>
-              <dd><a href="mailto:bcrazyraotan@gmail.com" className="hover:text-clay">bcrazyraotan@gmail.com</a></dd>
+              <dd><a href={`mailto:${location.email}`} className="hover:text-clay">{location.email}</a></dd>
             </div>
           </dl>
 
           <div className="mt-10 flex flex-wrap gap-3">
             <a
-              href="https://maps.google.com/?q=Bean+Crazy+Cafe+West+End+Roatan"
+              href={mapsDirectionsHref(location.mapsQuery)}
               target="_blank" rel="noopener"
               className="inline-flex items-center gap-2 bg-cream text-espresso px-6 py-3 rounded-full text-sm hover:bg-white transition"
             >
               <Icon.Pin className="w-4 h-4"/> {t.visit.directions}
             </a>
             <a
-              href="https://wa.me/50496228396"
+              href={location.whatsappHref}
               target="_blank" rel="noopener"
               className="inline-flex items-center gap-2 border border-cream/40 px-6 py-3 rounded-full text-sm hover:bg-cream/10 transition"
             >
@@ -720,8 +753,9 @@ function Visit() {
 
         <div className="reveal rounded-3xl overflow-hidden border border-cream/10 aspect-[4/5] md:aspect-auto md:h-[620px]">
           <iframe
+            key={location.id}
             title={t.visit.mapTitle}
-            src="https://www.google.com/maps?q=Bean+Crazy+Cafe+West+End+Roatan&output=embed"
+            src={mapsEmbedSrc(location.mapsQuery)}
             className="w-full h-full grayscale-[30%]"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
@@ -762,9 +796,19 @@ function Footer() {
 
         <div>
           <div className="text-[10px] uppercase tracking-widest text-cream/50 mb-4">{t.footer.visitLabel}</div>
-          <ul className="space-y-2 leading-relaxed">
-            {t.footer.address.map((line, i) => <li key={i}>{line}</li>)}
-            <li className="pt-3"><a className="hover:text-cream" href="tel:+50496228396">+504 9622-8396</a></li>
+          <ul className="space-y-3 leading-relaxed">
+            {LOCATIONS.map((loc) => (
+              <li key={loc.id}>
+                <a
+                  href={`#visit`}
+                  className="font-medium text-cream/90 hover:text-cream"
+                >
+                  {loc.label}
+                </a>
+                <div className="text-cream/60 text-sm">{loc.addressLines[0]}, {loc.addressLines[2]}</div>
+              </li>
+            ))}
+            <li className="pt-2"><a className="hover:text-cream" href="tel:+50496228396">+504 9622-8396</a></li>
             <li><a className="hover:text-cream" href="mailto:bcrazyraotan@gmail.com">bcrazyraotan@gmail.com</a></li>
           </ul>
         </div>
@@ -779,6 +823,7 @@ function Footer() {
               </li>
             ))}
           </ul>
+          <div className="mt-3 text-[11px] text-cream/45 leading-snug max-w-[160px]">{t.footer.hoursSameNote}</div>
         </div>
       </div>
 

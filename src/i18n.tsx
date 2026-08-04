@@ -39,7 +39,7 @@ export interface Content {
   };
   footer: {
     area: string; tagline: string; visitLabel: string; address: string[]; hoursLabel: string;
-    days: string[]; hoursValues: string[]; copyright: string; links: [string, string][];
+    days: string[]; hoursValues: string[]; hoursSameNote: string; copyright: string; links: [string, string][];
   };
   aria: {
     openMenu: string; closeMenu: string; siteNav: string; whatsappBtn: string; directionsBtn: string;
@@ -61,19 +61,19 @@ const content: Record<Lang, Content> = {
       cta: "See What's Inside",
     },
     drawer: {
-      hours: "West End Road · Half Moon Bay",
-      hours2: "Mon–Sat 7am–5pm · Sun 7am–2pm",
+      hours: "West End · West Bay · Dolphin Plaza",
+      hours2: "Open Daily From 7am",
     },
     hero: {
-      kicker: "West End · Half Moon Bay · Roatán",
+      kicker: "West Bay · West End · Dolphin Plaza",
       h1a: "Fuel your",
       h1b: "Roatán adventure.",
-      sub: "Fresh roasted Honduran coffee. Island breakfasts. Caribbean mornings just steps from the water.",
+      sub: "Fresh roasted Honduran coffee. Island breakfasts. Caribbean mornings — now in three spots across Roatán.",
       ctaPrimary: "See What's Inside",
       ctaSecondary: "Find Us",
       stat1: "4.6 · 341+ Tripadvisor reviews",
-      stat2: "Ranked #26 of 215 restaurants in West End",
-      stat3: "Mon–Sat 7am–5pm · Sun 7am–2pm",
+      stat2: "3 Locations Across Roatán",
+      stat3: "Open Daily From 7am",
     },
     marquee: [
       "Fresh Roasted Honduran Coffee",
@@ -184,14 +184,15 @@ const content: Record<Lang, Content> = {
       mapTitle: "Bean Crazy on the map",
     },
     footer: {
-      area: "Roatán · West End",
-      tagline: "Fresh roasted Honduran coffee, island breakfasts and slow Caribbean mornings on Half Moon Bay, West End, Roatán. More than a coffee shop — a Roatán tradition.",
+      area: "Roatán · 3 Locations",
+      tagline: "Fresh roasted Honduran coffee, island breakfasts and slow Caribbean mornings across West End, West Bay and Dolphin Plaza, Roatán. More than a coffee shop — a Roatán tradition.",
       visitLabel: "Visit",
       address: ["West End Road", "Half Moon Bay", "West End, Roatán 34101", "Honduras"],
       hoursLabel: "Hours",
       days: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
       hoursValues: ["7 – 5", "7 – 5", "7 – 5", "7 – 5", "7 – 5", "7 – 5", "7 – 2"],
-      copyright: "Bean Crazy Café & Breakfast · West End, Roatán",
+      hoursSameNote: "Same hours at all 3 locations",
+      copyright: "Bean Crazy Café & Breakfast · Roatán",
       links: [
         ["Story", "story"],
         ["Favorites", "favorites"],
@@ -224,19 +225,19 @@ const content: Record<Lang, Content> = {
       cta: "Mira Lo Que Hay Dentro",
     },
     drawer: {
-      hours: "West End Road · Half Moon Bay",
-      hours2: "Lun–Sáb 7am–5pm · Dom 7am–2pm",
+      hours: "West End · West Bay · Dolphin Plaza",
+      hours2: "Abierto Todos los Días Desde las 7am",
     },
     hero: {
-      kicker: "West End · Half Moon Bay · Roatán",
+      kicker: "West Bay · West End · Dolphin Plaza",
       h1a: "Alimenta tu",
       h1b: "aventura en Roatán.",
-      sub: "Café hondureño recién tostado. Desayunos isleños. Mañanas caribeñas a pasos del mar.",
+      sub: "Café hondureño recién tostado. Desayunos isleños. Mañanas caribeñas — ahora en tres lugares de Roatán.",
       ctaPrimary: "Mira Lo Que Hay Dentro",
       ctaSecondary: "Cómo Llegar",
       stat1: "4.6 · Más de 341 reseñas en Tripadvisor",
-      stat2: "Puesto #26 de 215 restaurantes en West End",
-      stat3: "Lun–Sáb 7am–5pm · Dom 7am–2pm",
+      stat2: "3 Ubicaciones en Roatán",
+      stat3: "Abierto Todos los Días Desde las 7am",
     },
     marquee: [
       "Café Hondureño Recién Tostado",
@@ -347,14 +348,15 @@ const content: Record<Lang, Content> = {
       mapTitle: "Bean Crazy en el mapa",
     },
     footer: {
-      area: "Roatán · West End",
-      tagline: "Café hondureño recién tostado, desayunos isleños y mañanas caribeñas tranquilas en Half Moon Bay, West End, Roatán. Más que una cafetería — una tradición de Roatán.",
+      area: "Roatán · 3 Ubicaciones",
+      tagline: "Café hondureño recién tostado, desayunos isleños y mañanas caribeñas tranquilas en West End, West Bay y Dolphin Plaza, Roatán. Más que una cafetería — una tradición de Roatán.",
       visitLabel: "Visítanos",
       address: ["West End Road", "Half Moon Bay", "West End, Roatán 34101", "Honduras"],
       hoursLabel: "Horario",
       days: ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"],
       hoursValues: ["7 – 5", "7 – 5", "7 – 5", "7 – 5", "7 – 5", "7 – 5", "7 – 2"],
-      copyright: "Bean Crazy Café & Breakfast · West End, Roatán",
+      hoursSameNote: "Mismo horario en las 3 ubicaciones",
+      copyright: "Bean Crazy Café & Breakfast · Roatán",
       links: [
         ["Historia", "story"],
         ["Favoritos", "favorites"],
