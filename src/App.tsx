@@ -73,7 +73,80 @@ const Icon = {
       <path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" strokeLinecap="round" />
     </svg>
   ),
+  Instagram: (p: React.SVGProps<SVGSVGElement>) => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" {...p}>
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.4" cy="6.6" r="0.9" fill="currentColor" stroke="none" />
+    </svg>
+  ),
+  Facebook: (p: React.SVGProps<SVGSVGElement>) => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" {...p}>
+      <circle cx="12" cy="12" r="9.5" />
+      <path
+        d="M13.6 20v-6.3h2.1l.3-2.4h-2.4v-1.6c0-.68.2-1.14 1.16-1.14h1.24V6.5c-.6-.07-1.28-.1-1.96-.1-1.94 0-3.34 1.18-3.34 3.36v1.84H8.6v2.4h2.1V20"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
 };
+
+/* ================================================================== */
+/* SOCIAL LINKS                                                        */
+/* ================================================================== */
+
+const SOCIAL_LINKS = [
+  { label: "Instagram", href: "https://www.instagram.com/beancrazyroatan/", Icon: Icon.Instagram },
+  { label: "Facebook", href: "https://www.facebook.com/BeanCrazyRoatan", Icon: Icon.Facebook },
+];
+
+/** Small icon-only social buttons for the header — mirrors the LanguageToggle's
+ *  pill styling so it reads as one family of controls, not a bolted-on addition. */
+function SocialLinksHeader({ scrolled }: { scrolled: boolean }) {
+  return (
+    <div
+      className={`inline-flex items-center gap-0.5 p-1 rounded-full border backdrop-blur-md transition-colors duration-500 ${
+        scrolled ? "bg-espresso/5 border-espresso/10" : "bg-cream/10 border-cream/30"
+      }`}
+    >
+      {SOCIAL_LINKS.map(({ label, href, Icon: SocialIcon }) => (
+        <a
+          key={label}
+          href={href}
+          target="_blank"
+          rel="noopener"
+          aria-label={label}
+          className={`relative w-7 h-7 md:w-8 md:h-8 rounded-full grid place-items-center transition-all duration-300 hover:opacity-100 ${
+            scrolled ? "text-espresso/70 hover:text-espresso" : "text-cream/85 hover:text-cream"
+          }`}
+        >
+          <SocialIcon className="w-[23px] h-[23px] md:w-[26px] md:h-[26px]" />
+        </a>
+      ))}
+    </div>
+  );
+}
+
+/** Slightly larger variant for the mobile drawer, sitting inline with the language toggle. */
+function SocialLinks({ className = "" }: { className?: string }) {
+  return (
+    <div className={`inline-flex items-center gap-0.5 p-1 rounded-full bg-espresso/5 border border-espresso/10 ${className}`}>
+      {SOCIAL_LINKS.map(({ label, href, Icon: SocialIcon }) => (
+        <a
+          key={label}
+          href={href}
+          target="_blank"
+          rel="noopener"
+          aria-label={label}
+          className="relative w-8 h-8 rounded-full grid place-items-center text-espresso/70 hover:text-espresso transition"
+        >
+          <SocialIcon className="w-[27px] h-[27px]" />
+        </a>
+      ))}
+    </div>
+  );
+}
 
 /* ================================================================== */
 
@@ -141,6 +214,7 @@ export default function App() {
           </nav>
 
           <div className="hidden lg:flex items-center gap-4">
+            <SocialLinksHeader scrolled={scrolled} />
             <LanguageToggleHeader scrolled={scrolled} />
             <a
               href="#favorites"
@@ -219,6 +293,7 @@ export default function App() {
             {t.drawer.hours} <br />
             {t.drawer.hours2}
           </div>
+          <SocialLinks className="mt-6" />
         </aside>
       </div>
 
@@ -782,12 +857,13 @@ function Footer() {
             {t.footer.tagline}
           </p>
           <div className="mt-6 flex gap-3">
-            {[
-              ["Instagram", "https://www.instagram.com/beancrazyroatan/"],
-              ["Facebook", "https://www.facebook.com/BeanCrazyRoatan"],
-              ["Tripadvisor", "https://www.tripadvisor.com/Restaurant_Review-g303875-d11946248-Reviews-Bean_Crazy_Cafe_Breasfast-West_End_Roatan_Bay_Islands.html"],
-            ].map(([n, u]) => (
-              <a key={n} href={u} target="_blank" rel="noopener" className="px-4 py-2 text-xs uppercase tracking-widest border border-cream/25 rounded-full hover:bg-cream hover:text-espresso transition">
+            {([
+              ["Instagram", "https://www.instagram.com/beancrazyroatan/", Icon.Instagram],
+              ["Facebook", "https://www.facebook.com/BeanCrazyRoatan", Icon.Facebook],
+              ["Tripadvisor", "https://www.tripadvisor.com/Restaurant_Review-g303875-d11946248-Reviews-Bean_Crazy_Cafe_Breasfast-West_End_Roatan_Bay_Islands.html", null],
+            ] as const).map(([n, u, PillIcon]) => (
+              <a key={n} href={u} target="_blank" rel="noopener" className="inline-flex items-center gap-1.5 px-4 py-2 text-xs uppercase tracking-widest border border-cream/25 rounded-full hover:bg-cream hover:text-espresso transition">
+                {PillIcon && <PillIcon className="w-3.5 h-3.5" />}
                 {n}
               </a>
             ))}
