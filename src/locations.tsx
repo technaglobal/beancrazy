@@ -64,7 +64,7 @@ export const LOCATIONS: LocationFacts[] = [
     addressLines: ["West Bay Mall", "West Bay Beach Road", "West Bay, Roatán", "Bay Islands, Honduras"],
     hours: ["Mon–Sat · 7am – 5pm", "Sun · 7am – 2pm"],
     hoursNote: "Breakfast served all day",
-    mapsQuery: "Bean Crazy West Bay Mall Roatan",
+    mapsQuery: "West Bay Mall, Roatan, Honduras",
     phone: "+504 9622-8396",
     telHref: "tel:+50496228396",
     whatsappHref: "https://wa.me/50496228396",
@@ -84,7 +84,7 @@ export const LOCATIONS: LocationFacts[] = [
     addressLines: ["Dolphin Plaza", "Carretera Principal", "Coxen Hole, Roatán", "Bay Islands, Honduras"],
     hours: ["Mon–Sat · 7am – 5pm", "Sun · 7am – 2pm"],
     hoursNote: "Breakfast served all day",
-    mapsQuery: "Bean Crazy Dolphin Plaza Roatan",
+    mapsQuery: "Dolphin Plaza, Coxen Hole, Roatan, Honduras",
     phone: "+504 9622-8396",
     telHref: "tel:+50496228396",
     whatsappHref: "https://wa.me/50496228396",
@@ -104,6 +104,13 @@ export function getLocation(id: LocationId): LocationFacts {
   return LOCATIONS.find((l) => l.id === id) ?? LOCATIONS[0];
 }
 
+// mapsQuery notes: West End's query includes "Bean Crazy" because that location has
+// its own confirmed Google Maps listing, so the pin drops exactly on it. West Bay and
+// Dolphin Plaza aren't listed there under "Bean Crazy" yet, so their queries target the
+// mall/plaza itself (a real, mappable place) instead — otherwise Google's text search
+// finds no match and the embed shows a map with no pin at all. Once Bean Crazy adds
+// those two locations to Google Business Profile, swap these queries back to
+// "Bean Crazy West Bay Roatan" / "Bean Crazy Dolphin Plaza Roatan" for a precise pin.
 export function mapsEmbedSrc(query: string) {
   return `https://www.google.com/maps?q=${encodeURIComponent(query)}&output=embed`;
 }
