@@ -44,7 +44,7 @@ export const LOCATIONS: LocationFacts[] = [
     addressLines: ["West End Road", "Half Moon Bay", "West End, Roatán 34101", "Bay Islands, Honduras"],
     hours: ["Mon–Sat · 7am – 5pm", "Sun · 7am – 2pm"],
     hoursNote: "Breakfast served all day",
-    mapsQuery: "Bean Crazy Cafe West End Roatan",
+    mapsQuery: "16.3053821,-86.5930539",
     phone: "+504 9622-8396",
     telHref: "tel:+50496228396",
     whatsappHref: "https://wa.me/50496228396",
@@ -64,14 +64,14 @@ export const LOCATIONS: LocationFacts[] = [
     addressLines: ["West Bay Mall", "West Bay Beach Road", "West Bay, Roatán", "Bay Islands, Honduras"],
     hours: ["Mon–Sat · 7am – 5pm", "Sun · 7am – 2pm"],
     hoursNote: "Breakfast served all day",
-    mapsQuery: "West Bay Mall, Roatan, Honduras",
+    mapsQuery: "16.2741276,-86.5968596",
     phone: "+504 9622-8396",
     telHref: "tel:+50496228396",
     whatsappHref: "https://wa.me/50496228396",
     email: "bcrazyraotan@gmail.com",
     description: {
-      en: "Inside West Bay Mall, steps from West Bay Beach — the same fresh roast, closer to the reef.",
-      es: "Dentro de West Bay Mall, a pasos de West Bay Beach — el mismo tueste fresco, más cerca del arrecife.",
+      en: "Across from West Bay Mall, steps from West Bay Beach — the same fresh roast, closer to the reef.",
+      es: "Frente a West Bay Mall, a pasos de West Bay Beach — el mismo tueste fresco, más cerca del arrecife.",
     },
     highlight: {
       en: { t: "Steps from West Bay Beach", d: "One of the best beaches in the Caribbean, just outside the door." },
@@ -84,7 +84,7 @@ export const LOCATIONS: LocationFacts[] = [
     addressLines: ["Dolphin Plaza", "Carretera Principal", "Coxen Hole, Roatán", "Bay Islands, Honduras"],
     hours: ["Mon–Sat · 7am – 5pm", "Sun · 7am – 2pm"],
     hoursNote: "Breakfast served all day",
-    mapsQuery: "Dolphin Plaza, Coxen Hole, Roatan, Honduras",
+    mapsQuery: "16.3197089,-86.5256083",
     phone: "+504 9622-8396",
     telHref: "tel:+50496228396",
     whatsappHref: "https://wa.me/50496228396",
@@ -104,13 +104,12 @@ export function getLocation(id: LocationId): LocationFacts {
   return LOCATIONS.find((l) => l.id === id) ?? LOCATIONS[0];
 }
 
-// mapsQuery notes: West End's query includes "Bean Crazy" because that location has
-// its own confirmed Google Maps listing, so the pin drops exactly on it. West Bay and
-// Dolphin Plaza aren't listed there under "Bean Crazy" yet, so their queries target the
-// mall/plaza itself (a real, mappable place) instead — otherwise Google's text search
-// finds no match and the embed shows a map with no pin at all. Once Bean Crazy adds
-// those two locations to Google Business Profile, swap these queries back to
-// "Bean Crazy West Bay Roatan" / "Bean Crazy Dolphin Plaza Roatan" for a precise pin.
+// mapsQuery notes: all three locations now have their own confirmed Google Business
+// listings, so each mapsQuery below is that location's exact lat,lng coordinate pair
+// (not a text/business-name search). A coordinate query drops a plain pin with no
+// business info card; a text query (e.g. "Bean Crazy West End Roatan") makes the
+// embed show a card with the name, star rating, and review count overlaid on the map,
+// which is the info box we intentionally avoid here.
 export function mapsEmbedSrc(query: string) {
   return `https://www.google.com/maps?q=${encodeURIComponent(query)}&output=embed`;
 }
