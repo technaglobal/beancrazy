@@ -849,14 +849,14 @@ function Footer() {
   const { t } = useLanguage();
   return (
     <footer className="bg-bark text-cream/85">
-      <div className="max-w-7xl mx-auto px-6 md:px-10 py-16 grid md:grid-cols-4 gap-10">
-        <div className="md:col-span-2">
+      <div className="max-w-7xl mx-auto px-6 md:px-10 py-16 grid grid-cols-1 md:grid-cols-4 gap-10">
+        <div className="md:col-span-2 min-w-0">
           <img src={LOGO} alt="Bean Crazy" className="h-11 w-auto invert" />
           <div className="mt-2 text-[10px] uppercase tracking-[0.22em] text-cream/70">{t.footer.area}</div>
           <p className="mt-6 max-w-md leading-relaxed">
             {t.footer.tagline}
           </p>
-          <div className="mt-6 flex gap-3">
+          <div className="mt-6 flex flex-wrap gap-3">
             {([
               ["Instagram", "https://www.instagram.com/beancrazyroatan/", Icon.Instagram],
               ["Facebook", "https://www.facebook.com/BeanCrazyRoatan", Icon.Facebook],
@@ -870,7 +870,7 @@ function Footer() {
           </div>
         </div>
 
-        <div>
+        <div className="min-w-0">
           <div className="text-[10px] uppercase tracking-widest text-cream/50 mb-4">{t.footer.visitLabel}</div>
           <ul className="space-y-3 leading-relaxed">
             {LOCATIONS.map((loc) => (
@@ -889,7 +889,7 @@ function Footer() {
           </ul>
         </div>
 
-        <div>
+        <div className="min-w-0">
           <div className="text-[10px] uppercase tracking-widest text-cream/50 mb-4">{t.footer.hoursLabel}</div>
           <ul className="space-y-1.5 max-w-[140px]">
             {t.footer.days.map((d, i) => (
